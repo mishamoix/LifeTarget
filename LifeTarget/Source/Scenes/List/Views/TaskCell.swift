@@ -52,6 +52,15 @@ final class TaskCell: UITableViewCell {
 		return view
 	}()
 
+	private let actionsContainer: UIStackView = {
+		let view = UIStackView()
+		view.axis = .horizontal
+		view.distribution = .fillEqually
+		view.backgroundColor = .clear
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+
 	let taskProgress = TaskProgressView()
 
 	override func prepareForReuse() {
@@ -72,13 +81,34 @@ final class TaskCell: UITableViewCell {
 		selectionStyle = .none
 
 		contentView.addSubview(container)
-		container.addSubviews(title, exposition, taskProgressContainer)
+		container.addSubviews(title, exposition, taskProgressContainer, actionsContainer)
 
 		contentView.backgroundColor = .clear
 		backgroundColor = .clear
 		setupConstraints()
 
 		taskProgressContainer.addArrangedSubview(taskProgress)
+
+		setupActionsContainer()
+	}
+
+	private func setupActionsContainer() {
+		let editButton = Button(title: "edit".loc, image: UIImage.named("pencilEdit"))
+		actionsContainer.addArrangedSubview(editButton)
+		actionsContainer.addArrangedSubview(Button(title: "subtasks_count".loc(count: 0),
+												   image: UIImage.named("chevronRight")))
+
+		let separator = Separator()
+		separator.axis = .vertical
+		separator.color = Colors.background
+		actionsContainer.addSubview(separator)
+
+		NSLayoutConstraint.activate([
+			separator.topAnchor.constraint(equalTo: actionsContainer.topAnchor),
+			separator.bottomAnchor.constraint(equalTo: actionsContainer.bottomAnchor),
+			separator.centerXAnchor.constraint(equalTo: actionsContainer.centerXAnchor,
+											   constant: Margin.small).reversed
+		])
 	}
 
 	private func setupConstraints() {
@@ -106,7 +136,13 @@ final class TaskCell: UITableViewCell {
 			taskProgressContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
 			taskProgressContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor,
 												 constant: Margin.standart).reversed,
-			taskProgressContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor,
+
+			actionsContainer.topAnchor.constraint(equalTo: taskProgressContainer.bottomAnchor,
+													   constant: Margin.large),
+			actionsContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
+			actionsContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor,
+												 constant: Margin.standart).reversed,
+			actionsContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor,
 														  constant: Margin.standart).reversed
 		])
 	}

@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		window?.rootViewController = mainFlow.mainViewController
 		window?.makeKeyAndVisible()
+		window?.layer.cornerRadius = 2.0
+		window?.clipsToBounds = true
 
 		mainFlow.startFlow()
 		return true

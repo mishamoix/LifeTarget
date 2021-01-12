@@ -40,11 +40,27 @@ enum Colors {
 		}
 	}
 
+	static var separator: UIColor {
+		if #available(iOS 13.0, *) {
+			return UIColor.systemFill
+		} else {
+			return UIColor(hex: "#78788033")
+		}
+	}
+
 	static var progress: UIColor {
 		return UIColor.systemGreen
 	}
 
 	static var timeLeft: UIColor {
 		return UIColor.systemPink
+	}
+
+	static var accent: UIColor {
+		if #available(iOS 13.0, *) {
+			return UIColor.systemIndigo
+		} else {
+			return UIColor(hex: "#5856d6ff")
+		}
 	}
 }

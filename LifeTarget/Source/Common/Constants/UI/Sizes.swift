@@ -8,5 +8,5 @@
 import UIKit
 
 enum Sizes {
-	static let cornerRadius: CGFloat = ScreenSizeMapper.value(small: 6, other: 8)
+	static let cornerRadius: CGFloat = ScreenSizeMapper.value(small: 10, other: 14)
 }

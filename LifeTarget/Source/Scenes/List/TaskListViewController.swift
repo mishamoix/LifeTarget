@@ -51,6 +51,7 @@ final class TaskListViewController: UIViewController {
 		tableView.estimatedRowHeight = 60
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Colors.background
+		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Margin.standart, right: 0)
 	}
 
 	private func setupConstraints() {

@@ -9,14 +9,12 @@ import UIKit
 
 enum Fonts {
 
-	static let title: UIFont = UIFont.systemFont(ofSize: defaultSize + 2,
-												 weight: .semibold)
+	static let title: UIFont = UIFont.preferredFont(forTextStyle: .title2)
 
-	static let text: UIFont = UIFont.systemFont(ofSize: defaultSize - 1,
-												weight: .regular)
+	static let text: UIFont = UIFont.preferredFont(forTextStyle: .callout)
 
-	static let caption: UIFont = UIFont.systemFont(ofSize: defaultSize - 4,
-												   weight: .light)
+	static let caption: UIFont = UIFont.preferredFont(forTextStyle: .caption2)
 
-	private static let defaultSize = UIFont.systemFontSize + 2
+	static let button: UIFont = UIFont.preferredFont(forTextStyle: .callout)
+
 }
