@@ -34,6 +34,10 @@ final class TaskListViewController: UIViewController {
 	private func setup() {
 		view.backgroundColor = Colors.background
 
+		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+																				  target: nil,
+																				  action: nil)
+
 		setupTableView()
 		setupConstraints()
 	}

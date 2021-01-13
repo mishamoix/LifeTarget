@@ -2,5 +2,8 @@ disabled_rules:
   - vertical_parameter_alignment
   - switch_case_alignment
 
+identifier_name:
+  excluded:
+    - id
 excluded:
   - Pods

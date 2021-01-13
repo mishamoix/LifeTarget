@@ -10,6 +10,7 @@ import UIKit
 final class MainViewController: UITabBarController {
 
 	override func viewDidLoad() {
+		UINavigationBar.appearance().shadowImage = UIColor.red.as1ptImage()
 		super.viewDidLoad()
 		setup()
 	}
@@ -21,6 +22,7 @@ final class MainViewController: UITabBarController {
 	private func setup() {
 		self.delegate = self
 		tabBar.tintColor = Colors.accent
+		tabBar.clipsToBounds = true
 	}
 }
 

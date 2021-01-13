@@ -47,4 +47,14 @@ extension NSManagedObjectContext {
 	func remove<T: NSManagedObject>(entity: T) {
 		delete(entity)
 	}
+
+	func entity(_ objectClass: AnyClass) -> NSEntityDescription {
+		guard
+			let result = NSEntityDescription.entity(forEntityName: String(describing: objectClass), in: self)
+			else {
+			fatalError("Can't create entity for \(String(describing: objectClass))")
+		}
+
+		return result
+	}
 }

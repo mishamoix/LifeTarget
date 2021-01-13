@@ -31,7 +31,7 @@ final class MainFlow {
 	}
 
 	private func buildNavigation(with root: UIViewController) -> UINavigationController {
-		return UINavigationController(rootViewController: root)
+		return NavigationController(rootViewController: root)
 	}
 
 	private func buildSettings() -> UIViewController {

@@ -33,7 +33,12 @@ final class DatabaseCoordinator: DatabaseCoordinatorProtocol {
 
 private extension DatabaseCoordinator {
 	func finishInitialize() {
-		readContext = persistentContainer.newBackgroundContext()
-		writeContext = persistentContainer.newBackgroundContext()
+		let writeContext = persistentContainer.newBackgroundContext()
+		let readContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+		readContext.parent = writeContext
+		readContext.automaticallyMergesChangesFromParent = true
+
+		self.readContext = readContext
+		self.writeContext = writeContext
 	}
 }
