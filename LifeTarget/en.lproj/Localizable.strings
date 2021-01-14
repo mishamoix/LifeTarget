@@ -17,3 +17,11 @@
 
 "title_placeholder" = "Task title";
 "exposition_placeholder" = "Task exposition";
+
+"select_date" = "Select date";
+"start_date" = "Start date";
+"finish_date" = "Deadline";
+"done" = "Done";
+"delete_date" = "Delete dates";
+"you_want_delete_date" = "Do you really want to remove dates?";
+"delete" = "Delete";

@@ -38,19 +38,9 @@ final class ChangeTaskViewController: UIViewController {
 		return view
 	}()
 
-	private let titleTextView: ChangeTaskTextView = {
-		let view = ChangeTaskTextView(placeholder: "title_placeholder".loc)
-		view.font = Fonts.title
-		view.minimumHeight = Fonts.title.pointSize * 1.5 + view.textContainerInset.vertical
-		return view
-	}()
+	private let changeTaskTextMainContainer = ChangeTaskTextMainContainer()
 
-	private let expositionTextView: ChangeTaskTextView = {
-		let view = ChangeTaskTextView(placeholder: "exposition_placeholder".loc)
-		view.font = Fonts.text
-		view.minimumHeight = Fonts.text.pointSize * 4.5 + view.textContainerInset.vertical
-		return view
-	}()
+	private lazy var durationPicker = DurationPicker(parent: self)
 
 	init(interactor: ChangeTaskInteractionLogic) {
 		self.interactor = interactor
@@ -73,8 +63,8 @@ final class ChangeTaskViewController: UIViewController {
 		view.addSubview(scrollView)
 		scrollView.addSubview(stackContainer)
 
-		stackContainer.addArrangedSubview(titleTextView)
-		stackContainer.addArrangedSubview(expositionTextView)
+		stackContainer.addArrangedSubview(changeTaskTextMainContainer)
+		stackContainer.addArrangedSubview(durationPicker)
 
 		setupConstraints()
 

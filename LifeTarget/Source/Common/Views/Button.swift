@@ -8,7 +8,7 @@
 import UIKit
 
 final class Button: UIButton {
-	init(title: String, image: UIImage?) {
+	init(title: String?, image: UIImage?) {
 		super.init(frame: .zero)
 		translatesAutoresizingMaskIntoConstraints = false
 
