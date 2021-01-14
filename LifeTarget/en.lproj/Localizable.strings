@@ -9,3 +9,11 @@
 "task_list" = "Tasks";
 "settings" = "Settings";
 "edit" = "Edit";
+
+"new_task" = "New task";
+"save" = "Save";
+"cancel" = "Cancel";
+"change_task" = "Modify";
+
+"title_placeholder" = "Task title";
+"exposition_placeholder" = "Task exposition";

@@ -34,9 +34,8 @@ final class TaskListViewController: UIViewController {
 	private func setup() {
 		view.backgroundColor = Colors.background
 
-		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-																				  target: nil,
-																				  action: nil)
+		navigationItem.rightBarButtonItem =
+			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTaskTapped))
 
 		setupTableView()
 		setupConstraints()
@@ -65,6 +64,10 @@ final class TaskListViewController: UIViewController {
 			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 		])
+	}
+
+	@objc private func addNewTaskTapped() {
+		interactor.addNewTaskTapped()
 	}
 }
 

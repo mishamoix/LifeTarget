@@ -9,6 +9,8 @@ import UIKit
 
 enum Fonts {
 
+	static let navigationTitle: UIFont = UIFont.preferredFont(forTextStyle: .title1)
+
 	static let title: UIFont = UIFont.preferredFont(forTextStyle: .title2)
 
 	static let text: UIFont = UIFont.preferredFont(forTextStyle: .callout)

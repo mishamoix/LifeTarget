@@ -13,6 +13,9 @@ final class NavigationController: UINavigationController {
 
 		navigationBar.tintColor = Colors.accent
 		navigationBar.shadowImage = UIColor.clear.as1ptImage()
-//		navigationBar.barTintColor = Colors.accent
+
+		navigationBar.titleTextAttributes = [
+			NSAttributedString.Key.foregroundColor: Colors.accent
+		]
 	}
 }

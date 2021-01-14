@@ -7,27 +7,17 @@
 
 import UIKit
 
-protocol MainFlowLogic { }
+protocol MainFlowLogic {
+}
 
 final class MainFlow {
 
 	private(set) lazy var mainViewController = MainViewController()
+	private lazy var tasksFlow = TasksFlow(base: mainViewController)
 
 	func startFlow() {
-		mainViewController.add(viewController: buildNavigation(with: buildTaskList()))
+		tasksFlow.start()
 		mainViewController.add(viewController: buildNavigation(with: buildSettings()))
-	}
-
-	private func buildTaskList() -> UIViewController {
-		let presenter = TaskListPresenter()
-		let interactor = TaskListInteractor(router: self, presenter: presenter)
-		let view = TaskListViewController(interactor: interactor)
-
-		view.tabBarItem = UITabBarItem(title: "task_list".loc,
-									   image: UIImage(named: "taskList"),
-									   tag: 0)
-
-		return view
 	}
 
 	private func buildNavigation(with root: UIViewController) -> UINavigationController {
@@ -45,6 +35,4 @@ final class MainFlow {
 	}
 }
 
-extension MainFlow: MainFlowLogic {
-
-}
+extension MainFlow: MainFlowLogic { }

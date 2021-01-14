@@ -6,18 +6,19 @@
 //
 
 protocol TaskListInteractionLogic {
-
 	func start()
+
+	func addNewTaskTapped()
 }
 
 final class TaskListInteractor {
 
 	typealias Scene = TaskListScene
 
-	private let router: MainFlowLogic
+	private let router: TasksFlowable
 	private let presenter: TaskListPresentationLogic
 
-	init(router: MainFlowLogic,
+	init(router: TasksFlowable,
 		 presenter: TaskListPresentationLogic) {
 		self.router = router
 		self.presenter = presenter
@@ -26,6 +27,9 @@ final class TaskListInteractor {
 
 // MARK: - TaskListInteractionLogic
 extension TaskListInteractor: TaskListInteractionLogic {
-
 	func start() {}
+
+	func addNewTaskTapped() {
+		router.openChangeTask(task: .adding(parent: nil))
+	}
 }

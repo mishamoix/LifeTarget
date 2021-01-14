@@ -18,4 +18,9 @@ enum TaskListScene {
 	struct Response {}
 
 	struct ViewModel {}
+
+	enum ChangeType {
+		case adding(parent: Task?)
+		case change(task: Task)
+	}
 }
