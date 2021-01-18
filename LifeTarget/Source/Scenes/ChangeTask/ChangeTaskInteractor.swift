@@ -86,15 +86,17 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 		}
 
 		var resultTask = model.task
+		var parentTask: Task?
 
 		switch task {
 			case .change(let changingTask):
 				resultTask.id = changingTask.id
-			default:
-				break
+				parentTask = changingTask.parent?.value
+			case .adding(let parent):
+				parentTask = parent
 		}
 
-		taskProvider.save(task: resultTask) { [weak self] in
+		taskProvider.save(task: resultTask, parent: parentTask) { [weak self] in
 			self?.listener?.refreshTasks()
 			DispatchQueue.main.async { [weak viewController] in
 				viewController?.dismiss(animated: true, completion: nil)

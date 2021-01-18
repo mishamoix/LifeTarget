@@ -62,6 +62,7 @@ extension Task {
 		var progress: Task.Progress?
 		var duration: Task.Duration?
 		var childs: [Task]?
+		var parent: Task?
 
 		if let progressMax = model.progressMaxCount, let progressCurrent = model.progressCurrent {
 			progress = Task.Progress(maxCount: progressMax.floatValue,
@@ -73,12 +74,19 @@ extension Task {
 		}
 
 		if level <= 0, let childsDB = model.childs?.allObjects as? [TaskDB] {
-			childs = childsDB.map({ Task(db: $0, level: level + 1) })
+			childs = childsDB
+				.map({ Task(db: $0, level: level + 1) })
+				.sorted(by: { $0.createDate > $1.createDate })
+		}
+
+		if level <= 0,
+		   let parentDB = model.parent {
+			parent = Task(db: parentDB, level: level + 1)
 		}
 
 		self.init(id: model.id, title: model.title, exposition: model.exposition,
 				  progress: progress, duration: duration, notification: nil,
 				  isCompleted: model.isCompleted, createDate: model.createDate.date,
-				  updateDate: model.updateDate.date, subtasks: childs, parent: nil)
+				  updateDate: model.updateDate.date, subtasks: childs, parent: Wrapper(parent))
 	}
 }

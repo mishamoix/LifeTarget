@@ -8,6 +8,7 @@
 import UIKit
 
 protocol TasksFlowable {
+	func openList(input: TaskListScene.Input)
 	func openChangeTask(task: TaskListScene.ChangeType, listener: ChangeTaskInteractionListener)
 }
 
@@ -22,15 +23,15 @@ final class TasksFlow {
 	}
 
 	func start() {
-		let taskList = buildTaskList()
+		let taskList = buildTaskList(input: TaskListScene.Input())
 		baseNavigationViewController.setViewControllers([taskList], animated: false)
 		baseViewController.add(viewController: baseNavigationViewController)
 	}
 
-	private func buildTaskList() -> UIViewController {
+	private func buildTaskList(input: TaskListScene.Input) -> UIViewController {
 		let presenter = TaskListPresenter(factory: TaskFactory())
 		let interactor = TaskListInteractor(router: self, presenter: presenter,
-											taskProvider: taskProvider)
+											taskProvider: taskProvider, input: input)
 		let view = TaskListViewController(interactor: interactor)
 
 		presenter.view = view
@@ -60,5 +61,10 @@ extension TasksFlow: TasksFlowable {
 		let view = buildChangeTask(task: task, listener: listener)
 		baseNavigationViewController.present(NavigationController(rootViewController: view),
 											 animated: true)
+	}
+
+	func openList(input: TaskListScene.Input) {
+		let taskList = buildTaskList(input: input)
+		baseNavigationViewController.pushViewController(taskList, animated: true)
 	}
 }

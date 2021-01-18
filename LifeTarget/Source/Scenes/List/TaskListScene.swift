@@ -7,7 +7,12 @@
 
 enum TaskListScene {
 	struct ViewModel {
+		let parent: TaskViewModel?
 		let tasks: [TaskViewModel]
+
+		var hasParent: Bool {
+			return parent != nil
+		}
 	}
 
 	enum ChangeType {
@@ -17,5 +22,11 @@ enum TaskListScene {
 
 	struct Input {
 		let parent: Task?
+		let listener: TaskListInteractionListener?
+
+		init(parent: Task? = nil, listener: TaskListInteractionListener? = nil) {
+			self.parent = parent
+			self.listener = listener
+		}
 	}
 }

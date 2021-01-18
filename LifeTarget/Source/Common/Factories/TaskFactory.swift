@@ -46,8 +46,11 @@ private extension TaskFactory {
 	}
 
 	func buildProgress(from progress: Task.Progress) -> ProgressViewModel {
-		let prog = ProgressViewModel(color: Colors.progress, progress: progress.current / progress.maxCount,
-								subtitle: "tasks_progress".loc + ": \(Int(progress.current))/\(Int(progress.maxCount))")
+		let progressLabel = "tasks_progress".loc + ": \(Int(progress.current))/\(Int(progress.maxCount))"
+		let prog = ProgressViewModel(color: Colors.progress,
+									 progress: progress.current / progress.maxCount,
+									 subtitle: progressLabel,
+									 showPlus: progress.current < progress.maxCount)
 		return prog
 	}
 
@@ -79,7 +82,8 @@ private extension TaskFactory {
 				+ ": \(pastDays)/\(allDays)"
 		}
 
-		let prog = ProgressViewModel(color: Colors.timeLeft, progress: progress, subtitle: title)
+		let prog = ProgressViewModel(color: Colors.timeLeft, progress: progress,
+									 subtitle: title, showPlus: false)
 		return prog
 	}
 }

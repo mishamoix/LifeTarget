@@ -21,6 +21,10 @@ final class TaskListViewController: UIViewController {
 
 	private var viewModel: Scene.ViewModel?
 
+	private var hasParent: Bool {
+		viewModel?.hasParent ?? false
+	}
+
 	init(interactor: TaskListInteractionLogic) {
 		self.interactor = interactor
 		super.init(nibName: nil, bundle: nil)
@@ -52,6 +56,7 @@ final class TaskListViewController: UIViewController {
 		tableView.dataSource = self
 
 		tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.identifier)
+		tableView.register(ParentCell.self, forCellReuseIdentifier: ParentCell.identifier)
 
 		tableView.rowHeight = UITableView.automaticDimension
 		tableView.estimatedRowHeight = 60
@@ -72,6 +77,16 @@ final class TaskListViewController: UIViewController {
 	@objc private func addNewTaskTapped() {
 		interactor.addNewTaskTapped()
 	}
+
+	private func parentCell(indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: ParentCell.identifier,
+												 for: indexPath)
+		if let cell = cell as? ParentCell, let task = viewModel?.parent {
+			cell.update(with: task)
+		}
+
+		return cell
+	}
 }
 
 // MARK: - TaskListDisplayLogic
@@ -91,10 +106,15 @@ extension TaskListViewController: UITableViewDelegate { }
 
 extension TaskListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel?.tasks.count ?? 0
+		return viewModel?.tasks.count ?? 0 + (hasParent ? 1 : 0)
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+		if hasParent && indexPath.row == 0 {
+			return parentCell(indexPath: indexPath)
+		}
+
 		let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath)
 
 		if let cell = cell as? TaskCell, let task = viewModel?.tasks[indexPath.row] {
@@ -111,6 +131,20 @@ extension TaskListViewController: TaskCellDelegate {
 		if let index = tableView.indexPath(for: cell)?.row,
 		   let task = viewModel?.tasks[index].task {
 			interactor.editTaskTapped(task: task)
+		}
+	}
+
+	func subtasksOpenTapped(cell: TaskCell) {
+		if let index = tableView.indexPath(for: cell)?.row,
+		   let task = viewModel?.tasks[index].task {
+			interactor.subtasksTapped(task: task)
+		}
+	}
+
+	func plusTapped(cell: TaskCell) {
+		if let index = tableView.indexPath(for: cell)?.row,
+		   let task = viewModel?.tasks[index].task {
+			interactor.plusTapped(task: task)
 		}
 	}
 }

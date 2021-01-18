@@ -11,4 +11,6 @@ struct ProgressViewModel {
 	let color: UIColor
 	let progress: Float
 	let subtitle: String
+
+	let showPlus: Bool
 }

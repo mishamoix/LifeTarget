@@ -64,6 +64,7 @@ final class ProgressField: UIView {
 
 	private func setupUI() {
 		translatesAutoresizingMaskIntoConstraints = false
+		backgroundColor = Colors.secondaryBackground
 		addSubviews(title, inputField)
 
 		NSLayoutConstraint.activate([

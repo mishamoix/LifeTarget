@@ -9,6 +9,8 @@ import UIKit
 
 protocol TaskCellDelegate: AnyObject {
 	func editTapped(cell: TaskCell)
+	func subtasksOpenTapped(cell: TaskCell)
+	func plusTapped(cell: TaskCell)
 }
 
 final class TaskCell: UITableViewCell {
@@ -22,21 +24,14 @@ final class TaskCell: UITableViewCell {
 
 	weak var delegate: TaskCellDelegate?
 
-	private let title: UILabel = {
-		let label = UILabel()
-		label.textColor = Colors.label
-		label.font = Fonts.title
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.numberOfLines = 0
-		return label
-	}()
+	private let taskExpositionView = TaskExpositionView()
 
-	private let exposition: UILabel = {
+	private let subtasksLabel: UILabel = {
 		let label = UILabel()
 		label.textColor = Colors.secondaryLabel
 		label.font = Fonts.text
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.numberOfLines = 3
+		label.numberOfLines = 0
 		return label
 	}()
 
@@ -45,6 +40,16 @@ final class TaskCell: UITableViewCell {
 		view.backgroundColor = Colors.secondaryBackground
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.layer.cornerRadius = Sizes.cornerRadius
+		return view
+	}()
+
+	private let stackContainer: UIStackView = {
+		let view = UIStackView()
+		view.backgroundColor = Colors.secondaryBackground
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.distribution = .equalSpacing
+		view.spacing = Margin.standart
 		return view
 	}()
 
@@ -67,21 +72,29 @@ final class TaskCell: UITableViewCell {
 		return view
 	}()
 
+	private let subtasksButton = Button(title: nil,
+										image: UIImage.named("chevronRight"))
+
 	private let progressViewQueue = ViewQueue<TaskProgressView>(initializer: { TaskProgressView() })
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-
 		setupViews()
 	}
 
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
 	func update(with task: TaskViewModel) {
-		title.text = task.task.title
-		exposition.text = task.task.exposition
+		taskExpositionView.update(with: task)
+
+		subtasksLabel.text = task.subtasks
+		subtasksLabel.isHidden = task.subtasks == nil
+
+		subtasksButton.setTitle("subtasks_count".loc(count: task.task.subtasks?.count ?? 0),
+								for: .normal)
 
 		taskProgressContainer.arrangedSubviews.forEach({ $0.isHidden = true })
+		taskProgressContainer.isHidden = task.progresses.isEmpty
 
 		task.progresses.enumerated().forEach({ (idx, progress) in
 			let view = progressViewQueue.view(at: idx)
@@ -97,29 +110,36 @@ final class TaskCell: UITableViewCell {
 		selectionStyle = .none
 
 		contentView.addSubview(container)
-		container.addSubviews(title, exposition, taskProgressContainer, actionsContainer)
+		container.addSubview(stackContainer)
+
+		stackContainer.addArrangedSubview(taskExpositionView)
+		stackContainer.addArrangedSubview(subtasksLabel)
+		stackContainer.addArrangedSubview(taskProgressContainer)
+		stackContainer.addArrangedSubview(Separator())
+		stackContainer.addArrangedSubview(actionsContainer)
 
 		contentView.backgroundColor = .clear
 		backgroundColor = .clear
+
 		setupConstraints()
-
 		setupActionsContainer()
+		addPlusCounterHandler()
 
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(editTapped))
-		container.isUserInteractionEnabled = true
-		container.addGestureRecognizer(tapGesture)
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(subtasksTapped))
+		stackContainer.isUserInteractionEnabled = true
+		stackContainer.addGestureRecognizer(tapGesture)
 	}
 
 	private func setupActionsContainer() {
-		let editButton = Button(title: nil, image: UIImage.named("pencilEdit"))
+		let editButton = Button(title: "edit".loc, image: UIImage.named("pencilEdit"))
 		editButton.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
 		actionsContainer.addArrangedSubview(editButton)
-		actionsContainer.addArrangedSubview(Button(title: "subtasks_count".loc(count: 0),
-												   image: UIImage.named("chevronRight")))
+
+		subtasksButton.addTarget(self, action: #selector(subtasksTapped), for: .touchUpInside)
+		actionsContainer.addArrangedSubview(subtasksButton)
 
 		let separator = Separator()
 		separator.axis = .vertical
-		separator.color = Colors.background
 		actionsContainer.addSubview(separator)
 
 		NSLayoutConstraint.activate([
@@ -140,33 +160,30 @@ final class TaskCell: UITableViewCell {
 			container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
 											  constant: Consts.insets.bottom).reversed,
 
-			title.topAnchor.constraint(equalTo: container.topAnchor, constant: Margin.standart),
-			title.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
-			title.trailingAnchor.constraint(equalTo: container.trailingAnchor,
-											constant: Margin.standart).reversed,
-
-			exposition.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Margin.small),
-			exposition.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
-			exposition.trailingAnchor.constraint(equalTo: container.trailingAnchor,
-												 constant: Margin.standart).reversed,
-
-			taskProgressContainer.topAnchor.constraint(equalTo: exposition.bottomAnchor,
-													   constant: Margin.large),
-			taskProgressContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
-			taskProgressContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor,
-												 constant: Margin.standart).reversed,
-
-			actionsContainer.topAnchor.constraint(equalTo: taskProgressContainer.bottomAnchor,
-													   constant: Margin.large),
-			actionsContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
-			actionsContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor,
-												 constant: Margin.standart).reversed,
-			actionsContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor,
-														  constant: Margin.standart).reversed
+			stackContainer.topAnchor.constraint(equalTo: container.topAnchor, constant: Margin.standart),
+			stackContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor,
+											   constant: Margin.standart),
+			stackContainer.trailingAnchor.constraint(equalTo: container.trailingAnchor,
+												constant: Margin.standart).reversed,
+			stackContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor,
+											  constant: Margin.standart).reversed
 		])
+	}
+
+	private func addPlusCounterHandler() {
+		let view = progressViewQueue.view(at: 0)
+
+		view.plusHandler = { [weak self] in
+			guard let self = self else { return }
+			self.delegate?.plusTapped(cell: self)
+		}
 	}
 
 	@objc private func editTapped() {
 		delegate?.editTapped(cell: self)
+	}
+
+	@objc private func subtasksTapped() {
+		delegate?.subtasksOpenTapped(cell: self)
 	}
 }

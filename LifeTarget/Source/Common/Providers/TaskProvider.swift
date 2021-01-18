@@ -9,7 +9,7 @@ import CoreData
 
 protocol TaskProviderProtocol {
 
-	func save(task: Task, completion: @escaping () -> Void)
+	func save(task: Task, parent: Task?, completion: @escaping () -> Void)
 	func delete(task: Task, completion: @escaping () -> Void)
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void)
 }
@@ -40,9 +40,18 @@ final class TaskProvider {
 }
 
 extension TaskProvider: TaskProviderProtocol {
-	func save(task: Task, completion: @escaping () -> Void) {
+	func save(task: Task, parent: Task?, completion: @escaping () -> Void) {
+		let parentTask: TaskDB?
+		if let parent = parent {
+			parentTask = self.writeContext.entry(entity: TaskDB.self,
+												 predicate: parent.basePredicate)
+		} else {
+			parentTask = nil
+		}
 
-		TaskDB.createOrUpdate(input: task, context: writeContext)
+		TaskDB.createOrUpdate(input: task, context: writeContext) { task in
+			task.parent = parentTask
+		}
 		writeContext.perform { [weak self] in
 			try? self?.writeContext.save()
 			completion()
@@ -59,7 +68,22 @@ extension TaskProvider: TaskProviderProtocol {
 
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void) {
 		readContext.perform { [weak self] in
-			guard let tasksDB = self?.readContext.entries(entity: TaskDB.self) else {
+
+			let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: false)
+
+			let entries: [TaskDB]?
+
+			if let parent = parent {
+				let predicate = NSPredicate(format: "parent.id = '\(parent.id)'")
+				entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate,
+													sort: sortDescriptor)
+
+			} else {
+				let predicate = NSPredicate(format: "parent = nil")
+				entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate,
+													sort: sortDescriptor)
+			}
+			guard let tasksDB = entries else {
 				return result([])
 			}
 

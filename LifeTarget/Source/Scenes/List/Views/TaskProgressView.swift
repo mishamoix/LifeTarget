@@ -9,6 +9,18 @@ import UIKit
 
 final class TaskProgressView: UIView {
 
+	private enum Consts {
+		static let plusSize: CGFloat = 30
+	}
+
+	var showPlus: Bool = false {
+		didSet {
+			updatePlusButton()
+		}
+	}
+
+	var plusHandler: (() -> Void)?
+
 	private let progressView: ProgressView = {
 		let view = ProgressView()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -23,6 +35,15 @@ final class TaskProgressView: UIView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
+
+	private let plusButton: UIButton = {
+		let button = Button(title: nil, image: UIImage.named("circlePlus"))
+		let inset: CGFloat = 3
+		button.contentEdgeInsets = UIEdgeInsets(inset: inset)
+		return button
+	}()
+
+	private var trailingProgressAnchor: NSLayoutConstraint?
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -39,24 +60,51 @@ final class TaskProgressView: UIView {
 		title.text = model.subtitle
 		progressView.primaryColor = model.color
 		progressView.progress = CGFloat(model.progress)
+
+		plusButton.tintColor = model.color
+		showPlus = model.showPlus
 	}
 
 	private func setupViews() {
 		translatesAutoresizingMaskIntoConstraints = false
-		addSubviews(progressView, title)
+		addSubviews(progressView, title, plusButton)
 		backgroundColor = .clear
 		progressView.backgroundColor = Colors.background
+
+		plusButton.addTarget(self, action: #selector(plusTapped), for: .touchUpInside)
+
+		setupConstraints()
+	}
+
+	private func setupConstraints() {
+
+		let trailing = progressView.trailingAnchor.constraint(equalTo: trailingAnchor)
+		trailingProgressAnchor = trailing
 
 		NSLayoutConstraint.activate([
 			progressView.topAnchor.constraint(equalTo: topAnchor),
 			progressView.leadingAnchor.constraint(equalTo: leadingAnchor),
-			progressView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			trailing,
 			progressView.heightAnchor.constraint(equalToConstant: 6),
 
 			title.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: Margin.small),
 			title.leadingAnchor.constraint(equalTo: leadingAnchor),
 			title.trailingAnchor.constraint(equalTo: trailingAnchor),
-			title.bottomAnchor.constraint(equalTo: bottomAnchor)
+			title.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+			plusButton.heightAnchor.constraint(equalToConstant: Consts.plusSize),
+			plusButton.widthAnchor.constraint(equalToConstant: Consts.plusSize),
+			plusButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+			plusButton.centerYAnchor.constraint(equalTo: progressView.centerYAnchor)
 		])
+	}
+
+	private func updatePlusButton() {
+		plusButton.isHidden = !showPlus
+		trailingProgressAnchor?.constant = showPlus ? -Consts.plusSize : 0
+	}
+
+	@objc func plusTapped() {
+		plusHandler?()
 	}
 }
