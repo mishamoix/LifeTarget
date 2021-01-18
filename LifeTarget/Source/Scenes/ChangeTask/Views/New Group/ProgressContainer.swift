@@ -9,16 +9,6 @@ import UIKit
 
 final class ProgressContainer: UIView {
 
-	private let title: UILabel = {
-		let label = UILabel()
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = Fonts.text
-		label.textColor = Colors.label
-		label.numberOfLines = 0
-		label.text = "progress_title".loc
-		return label
-	}()
-
 	private let exposition: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,27 +21,25 @@ final class ProgressContainer: UIView {
 
 	private let separator = Separator()
 
-	private let inputField: ValueTextField = {
-		let view = ValueTextField(type: .int)
+	private let filedsContainer: UIStackView = {
+		let view = UIStackView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.autocorrectionType = .no
-		view.keyboardType = .numberPad
-		view.backgroundColor = Colors.background
-		view.clipsToBounds = true
-		view.layer.cornerRadius = 5
-		view.placeholder = "progress_placeholder".loc
-		view.textAlignment = .center
-		view.font = Fonts.title
-		view.tintColor = Colors.accent
+		view.axis = .vertical
+		view.distribution = .equalSpacing
+		view.spacing = Margin.small
 		return view
 	}()
 
+	private let currentField = ProgressField(title: "current_progress".loc, placeholder: "10")
+	private let maxCountField = ProgressField(title: "max_count_progress_title".loc, placeholder: "400")
+
 	var progress: ChangeTaskScene.Progress? {
-		guard let text = inputField.value?.cleanWhitespace, let number = Float(text) else {
+		guard let maxProgress = maxCountField.value else {
 			return nil
 		}
 
-		return ChangeTaskScene.Progress(number: number)
+		return ChangeTaskScene.Progress(maxCount: Float(maxProgress),
+										currentCount: currentField.value?.float)
 	}
 
 	convenience init() {
@@ -64,9 +52,9 @@ final class ProgressContainer: UIView {
 	}
 
 	func update(with task: Task) {
-		if let maxCount = task.progress?.maxCount {
-			inputField.value = String(Int(maxCount))
-		}
+		currentField.isHidden = false
+		currentField.value = task.progress?.current.int
+		maxCountField.value = task.progress?.maxCount.int
 	}
 
 	required init?(coder: NSCoder) {
@@ -78,18 +66,23 @@ final class ProgressContainer: UIView {
 		layer.cornerRadius = Sizes.cornerRadius
 		translatesAutoresizingMaskIntoConstraints = false
 
-		addSubviews(title, exposition, separator, inputField)
+		addSubviews(filedsContainer, exposition, separator)
 
+		filedsContainer.addArrangedSubview(currentField)
+		filedsContainer.addArrangedSubview(maxCountField)
+
+		currentField.isHidden = true
+
+		setupConstraints()
+	}
+
+	private func setupConstraints() {
 		NSLayoutConstraint.activate([
-			title.topAnchor.constraint(equalTo: topAnchor, constant: Margin.standart),
-			title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margin.standart),
-			title.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5, constant: Margin.standart).reversed,
+			filedsContainer.topAnchor.constraint(equalTo: topAnchor, constant: Margin.standart),
+			filedsContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margin.standart),
+			filedsContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Margin.standart).reversed,
 
-			inputField.centerYAnchor.constraint(equalTo: title.centerYAnchor),
-			inputField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Margin.standart).reversed,
-			inputField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
-
-			separator.topAnchor.constraint(equalTo: inputField.bottomAnchor, constant: Margin.standart),
+			separator.topAnchor.constraint(equalTo: filedsContainer.bottomAnchor, constant: Margin.standart),
 			separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margin.standart),
 			separator.trailingAnchor.constraint(equalTo: trailingAnchor),
 

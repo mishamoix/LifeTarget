@@ -104,6 +104,10 @@ final class TaskCell: UITableViewCell {
 		setupConstraints()
 
 		setupActionsContainer()
+
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(editTapped))
+		container.isUserInteractionEnabled = true
+		container.addGestureRecognizer(tapGesture)
 	}
 
 	private func setupActionsContainer() {

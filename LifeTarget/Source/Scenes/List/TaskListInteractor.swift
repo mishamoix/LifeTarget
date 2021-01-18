@@ -18,13 +18,16 @@ final class TaskListInteractor {
 	private let router: TasksFlowable
 	private let presenter: TaskListPresentationLogic
 	private let taskProvider: TaskProviderProtocol
+	private let input: Scene.Input
 
 	init(router: TasksFlowable,
 		 presenter: TaskListPresentationLogic,
-		 taskProvider: TaskProviderProtocol) {
+		 taskProvider: TaskProviderProtocol,
+		 input: Scene.Input) {
 		self.router = router
 		self.presenter = presenter
 		self.taskProvider = taskProvider
+		self.input = input
 	}
 
 	func fetchTasks() {

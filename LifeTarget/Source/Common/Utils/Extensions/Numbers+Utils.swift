@@ -11,6 +11,10 @@ extension Float {
 	var nsNumber: NSNumber {
 		NSNumber(value: self)
 	}
+
+	var int: Int {
+		return Int(self)
+	}
 }
 
 extension Double {
@@ -22,5 +26,9 @@ extension Double {
 extension Int {
 	var nsNumber: NSNumber {
 		NSNumber(value: self)
+	}
+
+	var float: Float {
+		return Float(self)
 	}
 }

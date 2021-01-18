@@ -28,14 +28,16 @@
 "you_want_delete_date" = "Do you really want to remove dates?";
 "delete" = "Delete";
 
-"progress_title" = "Progress count";
-"progress_exposition" = "Enter number which represent count of activities. Example: I want read 400 pages of book. I got activity for each page and result is 400";
+"current_progress" = "Current count";
+"max_count_progress_title" = "Max progress count";
+"progress_exposition" = "Max progress count is a number which represent count of activities. Example: I want read 400 pages of book. I got activity for each page and result is 400";
 "progress_placeholder" = "400";
 
 "duration_start_nil" = "Start time is empty";
 "duration_finish_nil" = "Deadline is empty";
 "duration_start_greater_finish" = "Start time is greater than deadline";
 "too_much_progress" = "Current max progress number is too big";
+"current_progress_greater_max" = "Current progress greater than max progress";
 "empty_title" = "Task title is empty";
 "validation_error_title" = "Some errors of validation";
 

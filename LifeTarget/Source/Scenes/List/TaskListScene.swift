@@ -14,4 +14,8 @@ enum TaskListScene {
 		case adding(parent: Task?)
 		case change(task: Task)
 	}
+
+	struct Input {
+		let parent: Task?
+	}
 }
