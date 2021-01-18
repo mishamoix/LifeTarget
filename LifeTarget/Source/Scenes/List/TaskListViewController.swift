@@ -106,7 +106,7 @@ extension TaskListViewController: UITableViewDelegate { }
 
 extension TaskListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return viewModel?.tasks.count ?? 0 + (hasParent ? 1 : 0)
+		return (viewModel?.tasks.count ?? 0) + (hasParent ? 1 : 0)
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -117,7 +117,8 @@ extension TaskListViewController: UITableViewDataSource {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath)
 
-		if let cell = cell as? TaskCell, let task = viewModel?.tasks[indexPath.row] {
+		let index = hasParent ? indexPath.row - 1 : indexPath.row
+		if let cell = cell as? TaskCell, let task = viewModel?.tasks[index] {
 			cell.delegate = self
 			cell.update(with: task)
 		}
