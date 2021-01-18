@@ -15,6 +15,7 @@ protocol TaskListInteractionLogic {
 	func editTaskTapped(task: Task)
 	func subtasksTapped(task: Task)
 	func plusTapped(task: Task)
+	func completeTapped(task: Task)
 }
 
 final class TaskListInteractor {
@@ -70,6 +71,14 @@ extension TaskListInteractor: TaskListInteractionLogic {
 
 		taskProvider.save(task: resultTask, parent: resultTask.parent?.value) { [weak self] in
 			self?.fetchTasks()
+		}
+	}
+
+	func completeTapped(task: Task) {
+		var resultTask = task
+		resultTask.isCompleted = true
+		taskProvider.save(task: resultTask, parent: resultTask.parent?.value) { [weak self] in
+			self?.needUpdateParent()
 		}
 	}
 }

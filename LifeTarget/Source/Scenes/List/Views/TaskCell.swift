@@ -11,6 +11,7 @@ protocol TaskCellDelegate: AnyObject {
 	func editTapped(cell: TaskCell)
 	func subtasksOpenTapped(cell: TaskCell)
 	func plusTapped(cell: TaskCell)
+	func completeTapped(cell: TaskCell)
 }
 
 final class TaskCell: UITableViewCell {
@@ -40,6 +41,7 @@ final class TaskCell: UITableViewCell {
 		view.backgroundColor = Colors.secondaryBackground
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.layer.cornerRadius = Sizes.cornerRadius
+		view.addShadow()
 		return view
 	}()
 
@@ -52,6 +54,8 @@ final class TaskCell: UITableViewCell {
 		view.spacing = Margin.standart
 		return view
 	}()
+
+	private let completeButton = CompleteView()
 
 	private let taskProgressContainer: UIStackView = {
 		let view = UIStackView()
@@ -115,6 +119,7 @@ final class TaskCell: UITableViewCell {
 		stackContainer.addArrangedSubview(taskExpositionView)
 		stackContainer.addArrangedSubview(subtasksLabel)
 		stackContainer.addArrangedSubview(taskProgressContainer)
+		stackContainer.addArrangedSubview(completeButton)
 		stackContainer.addArrangedSubview(Separator())
 		stackContainer.addArrangedSubview(actionsContainer)
 
@@ -128,10 +133,15 @@ final class TaskCell: UITableViewCell {
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(subtasksTapped))
 		stackContainer.isUserInteractionEnabled = true
 		stackContainer.addGestureRecognizer(tapGesture)
+
+		completeButton.tapped = { [weak self] in
+			guard let self = self else { return }
+			self.delegate?.completeTapped(cell: self)
+		}
 	}
 
 	private func setupActionsContainer() {
-		let editButton = Button(title: "edit".loc, image: UIImage.named("pencilEdit"))
+		let editButton = Button(title: "edit".loc, image: nil)
 		editButton.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
 		actionsContainer.addArrangedSubview(editButton)
 

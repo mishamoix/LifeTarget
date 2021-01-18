@@ -23,7 +23,7 @@ final class TaskExpositionView: UIView {
 		label.textColor = Colors.secondaryLabel
 		label.font = Fonts.text
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.numberOfLines = 3
+		label.numberOfLines = 0
 		return label
 	}()
 

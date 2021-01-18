@@ -18,5 +18,4 @@ enum Fonts {
 	static let caption: UIFont = UIFont.preferredFont(forTextStyle: .caption2)
 
 	static let button: UIFont = UIFont.preferredFont(forTextStyle: .callout)
-
 }

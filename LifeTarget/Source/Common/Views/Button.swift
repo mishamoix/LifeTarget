@@ -31,12 +31,8 @@ final class Button: UIButton {
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
 	override var intrinsicContentSize: CGSize {
-		guard let minimumHeight = minimumHeight else {
-			return super.intrinsicContentSize
-		}
-
 		let size = super.intrinsicContentSize
-
-		return CGSize(width: size.width, height: max(minimumHeight, size.height))
+		return CGSize(width: size.width + contentEdgeInsets.horizontal,
+					  height: max(minimumHeight ?? 0, size.height))
 	}
 }

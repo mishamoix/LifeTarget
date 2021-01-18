@@ -10,7 +10,7 @@
 
 "task_list" = "Tasks";
 "settings" = "Settings";
-"edit" = "Edit";
+"edit" = "✏️";
 
 "new_task" = "New task";
 "save" = "Save";
@@ -41,7 +41,7 @@
 "empty_title" = "Task title is empty";
 "validation_error_title" = "Some errors of validation";
 
-"tasks_progress" = "Tasks";
+"activities_progress" = "Activities";
 "duration_will_start" = "Duration will start at";
 "days_progress" = "Days";
 
@@ -49,3 +49,5 @@
 "remove_task_subtitle" = "Do you really want to remove this task? You will not able to restore task";
 
 "subtasks" = "Subtasks";
+
+"complete_button" = "Complete";

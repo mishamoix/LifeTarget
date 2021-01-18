@@ -148,4 +148,11 @@ extension TaskListViewController: TaskCellDelegate {
 			interactor.plusTapped(task: task)
 		}
 	}
+
+	func completeTapped(cell: TaskCell) {
+		if let index = tableView.indexPath(for: cell)?.row,
+		   let task = viewModel?.tasks[index].task {
+			interactor.completeTapped(task: task)
+		}
+	}
 }

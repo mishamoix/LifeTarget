@@ -39,6 +39,10 @@ private extension TaskFactory {
 			result.append(buildProgress(from: progress))
 		}
 
+		if let subtasks = task.subtasks, !subtasks.isEmpty {
+			result.append(buildProgress(from: subtasks))
+		}
+
 		if let duration = task.duration, let durationResult = buildProgress(from: duration) {
 			result.append(durationResult)
 		}
@@ -46,11 +50,22 @@ private extension TaskFactory {
 	}
 
 	func buildProgress(from progress: Task.Progress) -> ProgressViewModel {
-		let progressLabel = "tasks_progress".loc + ": \(Int(progress.current))/\(Int(progress.maxCount))"
+		let progressLabel = "activities_progress".loc + ": \(Int(progress.current))/\(Int(progress.maxCount))"
 		let prog = ProgressViewModel(color: Colors.progress,
 									 progress: progress.current / progress.maxCount,
 									 subtitle: progressLabel,
 									 showPlus: progress.current < progress.maxCount)
+		return prog
+	}
+
+	func buildProgress(from subtasks: [Task]) -> ProgressViewModel {
+
+		let completedTasks = subtasks.filter({ $0.isCompleted }).count
+
+		let prog = ProgressViewModel(color: Colors.accent,
+									 progress: Float(completedTasks) / Float(subtasks.count),
+									 subtitle: "subtasks".loc + ": \(completedTasks)/\(subtasks.count)",
+									 showPlus: false)
 		return prog
 	}
 
