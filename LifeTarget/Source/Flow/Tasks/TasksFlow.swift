@@ -8,13 +8,14 @@
 import UIKit
 
 protocol TasksFlowable {
-	func openChangeTask(task: TaskListScene.ChangeType)
+	func openChangeTask(task: TaskListScene.ChangeType, listener: ChangeTaskInteractionListener)
 }
 
 final class TasksFlow {
 
 	private let baseViewController: MainViewController
 	private let baseNavigationViewController = NavigationController()
+	private lazy var taskProvider = TaskProvider(db: DatabaseCoordinator(name: "Models"))
 
 	init(base viewController: MainViewController) {
 		self.baseViewController = viewController
@@ -27,8 +28,9 @@ final class TasksFlow {
 	}
 
 	private func buildTaskList() -> UIViewController {
-		let presenter = TaskListPresenter()
-		let interactor = TaskListInteractor(router: self, presenter: presenter)
+		let presenter = TaskListPresenter(factory: TaskFactory())
+		let interactor = TaskListInteractor(router: self, presenter: presenter,
+											taskProvider: taskProvider)
 		let view = TaskListViewController(interactor: interactor)
 
 		presenter.view = view
@@ -40,9 +42,11 @@ final class TasksFlow {
 		return view
 	}
 
-	private func buildChangeTask(task: TaskListScene.ChangeType) -> UIViewController {
+	private func buildChangeTask(task: TaskListScene.ChangeType,
+								 listener: ChangeTaskInteractionListener) -> UIViewController {
 		let presenter = ChangeTaskPresenter()
-		let interactor = ChangeTaskInteractor(task: task.changeInput, router: self, presenter: presenter)
+		let interactor = ChangeTaskInteractor(task: task.changeInput, router: self,
+											  presenter: presenter, taskProvider: taskProvider, listener: listener)
 		let view = ChangeTaskViewController(interactor: interactor)
 
 		presenter.view = view
@@ -52,8 +56,8 @@ final class TasksFlow {
 }
 
 extension TasksFlow: TasksFlowable {
-	func openChangeTask(task: TaskListScene.ChangeType) {
-		let view = buildChangeTask(task: task)
+	func openChangeTask(task: TaskListScene.ChangeType, listener: ChangeTaskInteractionListener) {
+		let view = buildChangeTask(task: task, listener: listener)
 		baseNavigationViewController.present(NavigationController(rootViewController: view),
 											 animated: true)
 	}

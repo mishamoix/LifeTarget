@@ -33,7 +33,7 @@ struct Task: IdentifiableInput {
 		var current: Float
 	}
 
-	var id: String
+	var id: String = UUID().uuidString
 
 	var title: String
 	var exposition: String?

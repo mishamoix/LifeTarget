@@ -58,6 +58,10 @@ final class DurationPicker: UIView {
 		return formatter
 	}()
 
+	var duration: ChangeTaskScene.Duration? {
+		return ChangeTaskScene.Duration(start: startDate, finish: finishDate)
+	}
+
 	init(parent: UIViewController) {
 		self.parentViewController = parent
 		super.init(frame: .zero)
@@ -73,6 +77,7 @@ final class DurationPicker: UIView {
 		container.backgroundColor = Colors.secondaryBackground
 		translatesAutoresizingMaskIntoConstraints = false
 		layer.cornerRadius = Sizes.cornerRadius
+		clipsToBounds = true
 
 		removeDateButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
 
@@ -126,7 +131,8 @@ final class DurationPicker: UIView {
 
 		switch type {
 		case .start:
-			datePicker.picker.minimumDate = Date()
+			datePicker.picker.minimumDate = nil
+			datePicker.picker.date = startDate ?? Date()
 		case .finish:
 			let minDate = startDate ?? Date()
 			datePicker.picker.minimumDate = minDate
@@ -167,7 +173,13 @@ final class DurationPicker: UIView {
 			finishButton.buttonLabel = "select_date".loc
 		}
 
-		removeDateButton.isHidden = startDate == nil && finishDate == nil
+		let removeDateButtonHidden = startDate == nil && finishDate == nil
+
+		if removeDateButtonHidden != removeDateButton.isHidden {
+			UIView.animate(withDuration: CATransaction.animationDuration()) {
+				self.removeDateButton.isHidden = removeDateButtonHidden
+			}
+		}
 	}
 
 	@objc private func removeButtonTapped() {

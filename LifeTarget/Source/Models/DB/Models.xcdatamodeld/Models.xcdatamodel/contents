@@ -2,8 +2,8 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="TaskDB" representedClassName="TaskDB" syncable="YES">
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="durationEnd" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="durationStart" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="durationEnd" optional="YES" attributeType="Date" usesScalarValueType="YES"/>
+        <attribute name="durationStart" optional="YES" attributeType="Date" usesScalarValueType="YES"/>
         <attribute name="exposition" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="String" spotlightIndexingEnabled="YES"/>
         <attribute name="isCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>

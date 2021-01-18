@@ -6,6 +6,8 @@
   
 */
 
+"ok" = "OK";
+
 "task_list" = "Tasks";
 "settings" = "Settings";
 "edit" = "Edit";
@@ -22,6 +24,21 @@
 "start_date" = "Start date";
 "finish_date" = "Deadline";
 "done" = "Done";
-"delete_date" = "Delete dates";
+"delete_date" = "Remove dates";
 "you_want_delete_date" = "Do you really want to remove dates?";
 "delete" = "Delete";
+
+"progress_title" = "Progress count";
+"progress_exposition" = "Enter number which represent count of activities. Example: I want read 400 pages of book. I got activity for each page and result is 400";
+"progress_placeholder" = "400";
+
+"duration_start_nil" = "Start time is empty";
+"duration_finish_nil" = "Deadline is empty";
+"duration_start_greater_finish" = "Start time is greater than deadline";
+"too_much_progress" = "Current max progress number is too big";
+"empty_title" = "Task title is empty";
+"validation_error_title" = "Some errors of validation";
+
+"tasks_progress" = "Tasks";
+"duration_will_start" = "Duration will start at";
+"days_progress" = "Days";

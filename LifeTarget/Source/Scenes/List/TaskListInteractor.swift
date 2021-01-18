@@ -7,7 +7,6 @@
 
 protocol TaskListInteractionLogic {
 	func start()
-
 	func addNewTaskTapped()
 }
 
@@ -17,19 +16,36 @@ final class TaskListInteractor {
 
 	private let router: TasksFlowable
 	private let presenter: TaskListPresentationLogic
+	private let taskProvider: TaskProviderProtocol
 
 	init(router: TasksFlowable,
-		 presenter: TaskListPresentationLogic) {
+		 presenter: TaskListPresentationLogic,
+		 taskProvider: TaskProviderProtocol) {
 		self.router = router
 		self.presenter = presenter
+		self.taskProvider = taskProvider
+	}
+
+	func fetchTasks() {
+		taskProvider.fetchTasks(with: nil) { [weak self] tasks in
+			self?.presenter.show(tasks: tasks)
+		}
 	}
 }
 
 // MARK: - TaskListInteractionLogic
 extension TaskListInteractor: TaskListInteractionLogic {
-	func start() {}
+	func start() {
+		fetchTasks()
+	}
 
 	func addNewTaskTapped() {
-		router.openChangeTask(task: .adding(parent: nil))
+		router.openChangeTask(task: .adding(parent: nil), listener: self)
+	}
+}
+
+extension TaskListInteractor: ChangeTaskInteractionListener {
+	func refreshTasks() {
+		fetchTasks()
 	}
 }

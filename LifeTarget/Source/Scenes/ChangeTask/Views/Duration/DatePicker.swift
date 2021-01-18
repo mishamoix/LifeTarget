@@ -20,6 +20,9 @@ final class DatePicker: UIView {
 		return view
 	}()
 
+	private let animator = UIViewPropertyAnimator(duration: CATransaction.animationDuration(),
+												  curve: .easeInOut)
+
 	private let doneButton: Button = {
 		let view = Button(title: "done".loc, image: nil)
 		return view
@@ -31,6 +34,14 @@ final class DatePicker: UIView {
 	}()
 
 	private var resultBlock: ((Date?) -> Void)?
+	private var externalBottomAnchor: NSLayoutConstraint?
+
+	private let backgroundView: UIView = {
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = Colors.background.withAlphaComponent(0.7)
+		return view
+	}()
 
 	convenience init() {
 		self.init(frame: .zero)
@@ -49,16 +60,42 @@ final class DatePicker: UIView {
 		resultBlock = result
 
 		removeFromSuperview()
-		view.addSubview(self)
+		view.addSubviews(backgroundView, self)
 
+		backgroundView.alpha = 0
+
+		let bottomAnch = bottomAnchor.constraint(equalTo: view.bottomAnchor,
+												 constant: 300)
 		NSLayoutConstraint.activate([
 			leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			bottomAnchor.constraint(equalTo: view.bottomAnchor)
+			bottomAnch,
+
+			backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+			backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+			backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 		])
+
+		externalBottomAnchor = bottomAnch
+
+		view.setNeedsLayout()
+		view.layoutIfNeeded()
+
+		animator.stopAnimation(false)
+
+		animator.addAnimations {
+			bottomAnch.constant = 0
+			self.backgroundView.alpha = 1
+			view.setNeedsLayout()
+			view.layoutIfNeeded()
+		}
+
+		animator.startAnimation()
 	}
 
 	private func setupUI() {
+		animator.isUserInteractionEnabled = false
 		translatesAutoresizingMaskIntoConstraints = false
 		backgroundColor = Colors.secondaryBackground
 		addSubviews(cancelButton, doneButton, picker)
@@ -81,12 +118,30 @@ final class DatePicker: UIView {
 	}
 
 	@objc private func doneTapped() {
-		removeFromSuperview()
+		removeFromView()
 		resultBlock?(picker.date)
 	}
 
 	@objc private func cancelTapped() {
-		removeFromSuperview()
+		removeFromView()
 		resultBlock?(nil)
+	}
+
+	private func removeFromView() {
+
+		animator.stopAnimation(true)
+		animator.addAnimations {
+			self.backgroundView.alpha = 0
+			self.externalBottomAnchor?.constant = self.frame.height
+			self.superview?.setNeedsLayout()
+			self.superview?.layoutIfNeeded()
+		}
+
+		animator.addCompletion { _ in
+			self.removeFromSuperview()
+			self.backgroundView.removeFromSuperview()
+		}
+
+		animator.startAnimation()
 	}
 }

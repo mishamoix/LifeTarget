@@ -9,6 +9,8 @@ import UIKit
 
 protocol TaskListDisplayLogic: AnyObject {
 	func show(viewModel: TaskListScene.ViewModel)
+
+	func showEmptyScreen()
 }
 
 final class TaskListViewController: UIViewController {
@@ -17,6 +19,8 @@ final class TaskListViewController: UIViewController {
 
 	private let interactor: TaskListInteractionLogic
 	private let tableView = UITableView(frame: .null, style: .plain)
+
+	private var viewModel: Scene.ViewModel?
 
 	init(interactor: TaskListInteractionLogic) {
 		self.interactor = interactor
@@ -74,17 +78,30 @@ final class TaskListViewController: UIViewController {
 // MARK: - TaskListDisplayLogic
 extension TaskListViewController: TaskListDisplayLogic {
 
-	func show(viewModel: TaskListScene.ViewModel) {}
+	func show(viewModel: Scene.ViewModel) {
+		self.viewModel = viewModel
+		tableView.reloadData()
+	}
+
+	func showEmptyScreen() {
+
+	}
 }
 
 extension TaskListViewController: UITableViewDelegate { }
 
 extension TaskListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 100
+		return viewModel?.tasks.count ?? 0
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		return tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath)
+
+		if let cell = cell as? TaskCell, let task = viewModel?.tasks[indexPath.row] {
+			cell.update(with: task)
+		}
+
+		return cell
 	}
 }

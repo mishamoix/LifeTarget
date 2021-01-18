@@ -9,9 +9,8 @@ import UIKit
 
 protocol ChangeTaskDisplayLogic: AnyObject {
 
-	func show(viewModel: ChangeTaskScene.ViewModel)
-
 	func setup(with model: ChangeTaskScene.SetupViewModel)
+	func show(error: ChangeTaskScene.ErrorModel)
 }
 
 final class ChangeTaskViewController: UIViewController {
@@ -39,8 +38,8 @@ final class ChangeTaskViewController: UIViewController {
 	}()
 
 	private let changeTaskTextMainContainer = ChangeTaskTextMainContainer()
-
 	private lazy var durationPicker = DurationPicker(parent: self)
+	private let progressCounter = ProgressContainer()
 
 	init(interactor: ChangeTaskInteractionLogic) {
 		self.interactor = interactor
@@ -64,6 +63,7 @@ final class ChangeTaskViewController: UIViewController {
 		scrollView.addSubview(stackContainer)
 
 		stackContainer.addArrangedSubview(changeTaskTextMainContainer)
+		stackContainer.addArrangedSubview(progressCounter)
 		stackContainer.addArrangedSubview(durationPicker)
 
 		setupConstraints()
@@ -93,11 +93,13 @@ final class ChangeTaskViewController: UIViewController {
 	}
 
 	@objc private func saveTapped() {
-		cancelTapped()
+		let model = ChangeTaskScene.Model(duration: durationPicker.duration, progress: progressCounter.progress,
+										  exposition: changeTaskTextMainContainer.exposition)
+		interactor.saveTapped(with: model, viewController: self)
 	}
 
 	@objc private func cancelTapped() {
-		dismiss(animated: true)
+		interactor.closeTapped(viewController: self)
 	}
 
 	@objc private func tappedAtScroll() {
@@ -113,13 +115,18 @@ final class ChangeTaskViewController: UIViewController {
 // MARK: - ChangeTaskDisplayLogic
 extension ChangeTaskViewController: ChangeTaskDisplayLogic {
 
-	func show(viewModel: ChangeTaskScene.ViewModel) {}
-
 	func setup(with model: ChangeTaskScene.SetupViewModel) {
 		self.navigationItem.title = model.title
 		self.navigationItem.rightBarButtonItem =
 			UIBarButtonItem(title: model.saveButtonString, style: .done, target: self, action: #selector(saveTapped))
 		self.navigationItem.leftBarButtonItem =
 			UIBarButtonItem(title: model.cancelButtonString, style: .plain, target: self, action: #selector(cancelTapped))
+	}
+
+	func show(error: ChangeTaskScene.ErrorModel) {
+		let alert = UIAlertController(title: error.title, message: error.message, preferredStyle: .alert)
+
+		alert.addAction(UIAlertAction(title: "ok".loc, style: .default))
+		present(alert, animated: true)
 	}
 }

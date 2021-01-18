@@ -22,6 +22,14 @@ final class ChangeTaskTextView: UITextView {
 		return font ?? Fonts.text
 	}
 
+	var realText: String? {
+		if isPlaceholderVisible {
+			return nil
+		}
+
+		return text
+	}
+
 	init(placeholder: String? = nil) {
 		self.placeholderText = placeholder
 		super.init(frame: .zero, textContainer: nil)
@@ -58,6 +66,7 @@ final class ChangeTaskTextView: UITextView {
 		clipsToBounds = true
 		isScrollEnabled = false
 		translatesAutoresizingMaskIntoConstraints = false
+		tintColor = Colors.accent
 
 		refreshTypingAttributes()
 		refreshPlaceholderIfNeeded()

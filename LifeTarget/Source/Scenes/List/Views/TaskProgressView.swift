@@ -15,11 +15,11 @@ final class TaskProgressView: UIView {
 		return view
 	}()
 
-	let title: UILabel = {
+	private let title: UILabel = {
 		let label = UILabel()
 		label.textColor = Colors.secondaryLabel
 		label.font = Fonts.caption
-		label.numberOfLines = 1
+		label.numberOfLines = 0
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
@@ -34,6 +34,12 @@ final class TaskProgressView: UIView {
 	}
 
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+	func update(with model: ProgressViewModel) {
+		title.text = model.subtitle
+		progressView.primaryColor = model.color
+		progressView.progress = CGFloat(model.progress)
+	}
 
 	private func setupViews() {
 		translatesAutoresizingMaskIntoConstraints = false
@@ -52,12 +58,5 @@ final class TaskProgressView: UIView {
 			title.trailingAnchor.constraint(equalTo: trailingAnchor),
 			title.bottomAnchor.constraint(equalTo: bottomAnchor)
 		])
-
-		stub()
-	}
-
-	func stub() {
-		progressView.primaryColor = [Colors.timeLeft, Colors.progress].randomElement() ?? .white
-		progressView.progress = [0.1, 0.9, 0.4, 0.5].randomElement() ?? 0.6
 	}
 }

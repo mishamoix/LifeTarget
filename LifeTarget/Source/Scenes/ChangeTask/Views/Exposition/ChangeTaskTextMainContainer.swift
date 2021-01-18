@@ -28,6 +28,14 @@ final class ChangeTaskTextMainContainer: UIView {
 		return view
 	}()
 
+	var exposition: ChangeTaskScene.Exposition? {
+		guard let title = titleTextView.realText else {
+			return nil
+		}
+
+		return ChangeTaskScene.Exposition(title: title, subtitle: expositionTextView.realText)
+	}
+
 	convenience init() {
 		self.init(frame: .zero)
 	}

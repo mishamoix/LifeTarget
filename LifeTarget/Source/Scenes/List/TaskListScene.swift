@@ -6,18 +6,9 @@
 //
 
 enum TaskListScene {
-
-	struct Input {}
-
-	struct Output {}
-
-	struct Model {}
-
-	struct Request {}
-
-	struct Response {}
-
-	struct ViewModel {}
+	struct ViewModel {
+		let tasks: [TaskViewModel]
+	}
 
 	enum ChangeType {
 		case adding(parent: Task?)

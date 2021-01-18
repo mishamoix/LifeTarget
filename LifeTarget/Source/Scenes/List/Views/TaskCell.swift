@@ -61,21 +61,31 @@ final class TaskCell: UITableViewCell {
 		return view
 	}()
 
-	let taskProgress = TaskProgressView()
-
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		stub()
-	}
+	private let progressViewQueue = ViewQueue<TaskProgressView>(initializer: { TaskProgressView() })
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
 		setupViews()
-		stub()
 	}
 
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+	func update(with task: TaskViewModel) {
+		title.text = task.task.title
+		exposition.text = task.task.exposition
+
+		taskProgressContainer.arrangedSubviews.forEach({ $0.isHidden = true })
+
+		task.progresses.enumerated().forEach({ (idx, progress) in
+			let view = progressViewQueue.view(at: idx)
+			if view.superview == nil {
+				taskProgressContainer.addArrangedSubview(view)
+			}
+			view.isHidden = false
+			view.update(with: progress)
+		})
+	}
 
 	private func setupViews() {
 		selectionStyle = .none
@@ -87,13 +97,11 @@ final class TaskCell: UITableViewCell {
 		backgroundColor = .clear
 		setupConstraints()
 
-		taskProgressContainer.addArrangedSubview(taskProgress)
-
 		setupActionsContainer()
 	}
 
 	private func setupActionsContainer() {
-		let editButton = Button(title: "edit".loc, image: UIImage.named("pencilEdit"))
+		let editButton = Button(title: nil, image: UIImage.named("pencilEdit"))
 		actionsContainer.addArrangedSubview(editButton)
 		actionsContainer.addArrangedSubview(Button(title: "subtasks_count".loc(count: 0),
 												   image: UIImage.named("chevronRight")))
@@ -145,15 +153,5 @@ final class TaskCell: UITableViewCell {
 			actionsContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor,
 														  constant: Margin.standart).reversed
 		])
-	}
-
-	private func stub() {
-		title.text = "Это большой лейбл бла бла"
-
-		//swiftlint:disable:next line_length
-		exposition.text = "Тут много какого то описания Сайт b tot xnj-nj"
-
-		taskProgress.stub()
-		taskProgress.title.text = "21/150 дней"
 	}
 }

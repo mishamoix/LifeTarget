@@ -8,6 +8,7 @@
 protocol ChangeTaskPresentationLogic {
 	func setupForNewTask()
 	func setupForChange(task: Task)
+	func showValidation(error: String)
 }
 
 final class ChangeTaskPresenter {
@@ -28,5 +29,9 @@ extension ChangeTaskPresenter: ChangeTaskPresentationLogic {
 		let model = Scene.SetupViewModel(title: "change_task".loc, saveButtonString: "save".loc,
 										 cancelButtonString: "cancel".loc)
 		view?.setup(with: model)
+	}
+
+	func showValidation(error: String) {
+		view?.show(error: ChangeTaskScene.ErrorModel(title: "validation_error_title".loc, message: error))
 	}
 }

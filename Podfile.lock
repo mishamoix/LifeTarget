@@ -1,20 +1,28 @@
 PODS:
   - Alamofire (5.2.0)
+  - InputMask (6.0.0)
+  - MBProgressHUD (1.2.0)
   - SwiftLint (0.39.2)
 
 DEPENDENCIES:
   - Alamofire (= 5.2)
-  - SwiftLint
+  - InputMask (= 6.0.0)
+  - MBProgressHUD (= 1.2.0)
+  - SwiftLint (= 0.39.2)
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - InputMask
+    - MBProgressHUD
     - SwiftLint
 
 SPEC CHECKSUMS:
   Alamofire: c1ca147559e730bfb2182c8c7aafbdd90a867987
+  InputMask: f340bdc905a4c4f377e44d865f129f752ac2383d
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: e91ce2c7166b1cca6215d952c7fd09b73fefbef2
+PODFILE CHECKSUM: b70890d3088008d558dec24c7d7926e9f8d94afb
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

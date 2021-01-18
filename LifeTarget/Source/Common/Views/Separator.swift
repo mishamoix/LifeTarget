@@ -101,6 +101,8 @@ final class Separator: UIView {
 	private func setup() {
 		layer.addSublayer(separatorLayer)
 		translatesAutoresizingMaskIntoConstraints = false
+
+		updateSeparator()
 	}
 
 	private func updateSeparator() {
