@@ -31,7 +31,7 @@ final class ProgressContainer: UIView {
 
 	private let separator = Separator()
 
-	private let inputField: UITextField = {
+	private let inputField: ValueTextField = {
 		let view = ValueTextField(type: .int)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.autocorrectionType = .no
@@ -47,7 +47,7 @@ final class ProgressContainer: UIView {
 	}()
 
 	var progress: ChangeTaskScene.Progress? {
-		guard let text = inputField.text, let number = Float(text) else {
+		guard let text = inputField.value?.cleanWhitespace, let number = Float(text) else {
 			return nil
 		}
 
@@ -61,6 +61,12 @@ final class ProgressContainer: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
+	}
+
+	func update(with task: Task) {
+		if let maxCount = task.progress?.maxCount {
+			inputField.value = String(Int(maxCount))
+		}
 	}
 
 	required init?(coder: NSCoder) {

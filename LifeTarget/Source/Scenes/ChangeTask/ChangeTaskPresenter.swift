@@ -21,13 +21,13 @@ final class ChangeTaskPresenter {
 extension ChangeTaskPresenter: ChangeTaskPresentationLogic {
 	func setupForNewTask() {
 		let model = Scene.SetupViewModel(title: "new_task".loc, saveButtonString: "save".loc,
-										 cancelButtonString: "cancel".loc)
+										 cancelButtonString: "cancel".loc, task: nil, isModify: false)
 		view?.setup(with: model)
 	}
 
 	func setupForChange(task: Task) {
 		let model = Scene.SetupViewModel(title: "change_task".loc, saveButtonString: "save".loc,
-										 cancelButtonString: "cancel".loc)
+										 cancelButtonString: "cancel".loc, task: task, isModify: true)
 		view?.setup(with: model)
 	}
 

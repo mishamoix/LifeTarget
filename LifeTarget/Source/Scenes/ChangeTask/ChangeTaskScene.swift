@@ -33,6 +33,10 @@ enum ChangeTaskScene {
 		let title: String
 		let saveButtonString: String
 		let cancelButtonString: String
+
+		let task: Task?
+
+		let isModify: Bool
 	}
 
 	struct ErrorModel {

@@ -9,7 +9,6 @@ import UIKit
 
 protocol TaskListDisplayLogic: AnyObject {
 	func show(viewModel: TaskListScene.ViewModel)
-
 	func showEmptyScreen()
 }
 
@@ -99,9 +98,19 @@ extension TaskListViewController: UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath)
 
 		if let cell = cell as? TaskCell, let task = viewModel?.tasks[indexPath.row] {
+			cell.delegate = self
 			cell.update(with: task)
 		}
 
 		return cell
+	}
+}
+
+extension TaskListViewController: TaskCellDelegate {
+	func editTapped(cell: TaskCell) {
+		if let index = tableView.indexPath(for: cell)?.row,
+		   let task = viewModel?.tasks[index].task {
+			interactor.editTaskTapped(task: task)
+		}
 	}
 }

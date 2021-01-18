@@ -28,7 +28,11 @@ final class ValueTextField: UITextField {
 
 	var onChange: (() -> Void)?
 
-	private(set) var value: String?
+	var value: String? {
+		didSet {
+			text = value
+		}
+	}
 
 	private let inputMask = MaskedTextFieldDelegate()
 
@@ -83,7 +87,7 @@ private extension ValueTextField {
 			delegate = inputMask
 			keyboardType = .numberPad
 		case .int:
-			inputMask.primaryMaskFormat = "[00000000]"
+			inputMask.primaryMaskFormat = "[000000000]"
 			inputMask.listener = self
 			inputMask.rightToLeft = true
 			delegate = inputMask

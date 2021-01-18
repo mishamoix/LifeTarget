@@ -17,6 +17,7 @@ protocol ChangeTaskInteractionLogic {
 
 	func saveTapped(with model: ChangeTaskScene.Model, viewController: UIViewController)
 	func closeTapped(viewController: UIViewController)
+	func removeTapped(viewController: UIViewController)
 }
 
 final class ChangeTaskInteractor {
@@ -84,7 +85,16 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 			return
 		}
 
-		taskProvider.save(task: model.task) { [weak self] in
+		var resultTask = model.task
+
+		switch task {
+			case .change(let changingTask):
+				resultTask.id = changingTask.id
+			default:
+				break
+		}
+
+		taskProvider.save(task: resultTask) { [weak self] in
 			self?.listener?.refreshTasks()
 			DispatchQueue.main.async { [weak viewController] in
 				viewController?.dismiss(animated: true, completion: nil)
@@ -94,5 +104,16 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 
 	func closeTapped(viewController: UIViewController) {
 		viewController.dismiss(animated: true, completion: nil)
+	}
+
+	func removeTapped(viewController: UIViewController) {
+		if case let Scene.Input.change(resultTask) = task {
+			taskProvider.delete(task: resultTask) { [weak self] in
+				self?.listener?.refreshTasks()
+				DispatchQueue.main.async { [weak viewController] in
+					viewController?.dismiss(animated: true, completion: nil)
+				}
+			}
+		}
 	}
 }

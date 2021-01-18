@@ -72,6 +72,13 @@ final class DurationPicker: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	func update(with task: Task) {
+		startDate = task.duration?.start
+		finishDate = task.duration?.end
+
+		refreshDates()
+	}
+
 	private func setupUI() {
 		backgroundColor = Colors.secondaryBackground
 		container.backgroundColor = Colors.secondaryBackground
@@ -141,7 +148,7 @@ final class DurationPicker: UIView {
 			monthComponent.month = 1
 
 			let resultDate = Calendar.current.date(byAdding: monthComponent, to: minDate)
-			datePicker.picker.setDate(resultDate ?? minDate, animated: false)
+			datePicker.picker.setDate(finishDate ?? resultDate ?? minDate, animated: false)
 		}
 
 		datePicker.selectDate(on: parentViewController.view) { [weak self] date in

@@ -37,6 +37,15 @@ final class ChangeTaskViewController: UIViewController {
 		return view
 	}()
 
+	private lazy var removeButton: UIButton = {
+		let button = Button(title: "delete".loc, image: nil)
+		button.setTitleColor(Colors.attention, for: .normal)
+		button.backgroundColor = Colors.secondaryBackground
+		button.layer.cornerRadius = Sizes.cornerRadius
+		button.minimumHeight = Sizes.buttonSize
+		return button
+	}()
+
 	private let changeTaskTextMainContainer = ChangeTaskTextMainContainer()
 	private lazy var durationPicker = DurationPicker(parent: self)
 	private let progressCounter = ProgressContainer()
@@ -98,6 +107,16 @@ final class ChangeTaskViewController: UIViewController {
 		interactor.saveTapped(with: model, viewController: self)
 	}
 
+	private func updateInsests(keyboard height: CGFloat = 0) {
+		scrollView.contentInset = UIEdgeInsets(top: Margin.large, left: 0,
+											   bottom: height + Margin.large, right: 0)
+	}
+
+	private func addRemoveButton() {
+		removeButton.addTarget(self, action: #selector(tappedAtRemove), for: .touchUpInside)
+		stackContainer.addArrangedSubview(removeButton)
+	}
+
 	@objc private func cancelTapped() {
 		interactor.closeTapped(viewController: self)
 	}
@@ -106,9 +125,17 @@ final class ChangeTaskViewController: UIViewController {
 		view.endEditing(true)
 	}
 
-	private func updateInsests(keyboard height: CGFloat = 0) {
-		scrollView.contentInset = UIEdgeInsets(top: Margin.large, left: 0,
-											   bottom: height + Margin.large, right: 0)
+	@objc private func tappedAtRemove() {
+		let alert = UIAlertController(title: "remove_task_title".loc,
+									  message: "remove_task_subtitle".loc, preferredStyle: .alert)
+
+		alert.addAction(UIAlertAction(title: "delete".loc, style: .destructive, handler: { [weak self] _ in
+			guard let self = self else { return }
+			self.interactor.removeTapped(viewController: self)
+		}))
+
+		alert.addAction(UIAlertAction(title: "cancel".loc, style: .default))
+		present(alert, animated: true)
 	}
 }
 
@@ -121,6 +148,16 @@ extension ChangeTaskViewController: ChangeTaskDisplayLogic {
 			UIBarButtonItem(title: model.saveButtonString, style: .done, target: self, action: #selector(saveTapped))
 		self.navigationItem.leftBarButtonItem =
 			UIBarButtonItem(title: model.cancelButtonString, style: .plain, target: self, action: #selector(cancelTapped))
+
+		if let task = model.task {
+			changeTaskTextMainContainer.update(with: task)
+			progressCounter.update(with: task)
+			durationPicker.update(with: task)
+		}
+
+		if model.isModify {
+			addRemoveButton()
+		}
 	}
 
 	func show(error: ChangeTaskScene.ErrorModel) {

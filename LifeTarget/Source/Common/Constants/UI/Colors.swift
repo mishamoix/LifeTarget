@@ -71,4 +71,8 @@ enum Colors {
 			return UIColor(hex: "#5856d6ff")
 		}
 	}
+
+	static var attention: UIColor {
+		return UIColor.systemPink
+	}
 }

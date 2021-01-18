@@ -8,6 +8,7 @@
 protocol TaskListInteractionLogic {
 	func start()
 	func addNewTaskTapped()
+	func editTaskTapped(task: Task)
 }
 
 final class TaskListInteractor {
@@ -41,6 +42,10 @@ extension TaskListInteractor: TaskListInteractionLogic {
 
 	func addNewTaskTapped() {
 		router.openChangeTask(task: .adding(parent: nil), listener: self)
+	}
+
+	func editTaskTapped(task: Task) {
+		router.openChangeTask(task: .change(task: task), listener: self)
 	}
 }
 

@@ -10,6 +10,7 @@ import CoreData
 protocol TaskProviderProtocol {
 
 	func save(task: Task, completion: @escaping () -> Void)
+	func delete(task: Task, completion: @escaping () -> Void)
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void)
 }
 
@@ -47,6 +48,13 @@ extension TaskProvider: TaskProviderProtocol {
 			completion()
 		}
 
+	}
+
+	func delete(task: Task, completion: @escaping () -> Void) {
+		writeContext.perform { [weak self] in
+			self?.writeContext.removeEntries(entity: TaskDB.self, predicate: task.basePredicate)
+			completion()
+		}
 	}
 
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void) {

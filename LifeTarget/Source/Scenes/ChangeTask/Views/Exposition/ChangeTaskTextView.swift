@@ -23,11 +23,21 @@ final class ChangeTaskTextView: UITextView {
 	}
 
 	var realText: String? {
-		if isPlaceholderVisible {
-			return nil
+		get {
+			if isPlaceholderVisible {
+				return nil
+			}
+
+			return text
 		}
 
-		return text
+		set {
+			if newValue != nil {
+				isPlaceholderVisible = false
+				refreshTypingAttributes()
+				text = newValue
+			}
+		}
 	}
 
 	init(placeholder: String? = nil) {

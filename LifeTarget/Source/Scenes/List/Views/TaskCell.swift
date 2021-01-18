@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TaskCellDelegate: AnyObject {
+	func editTapped(cell: TaskCell)
+}
+
 final class TaskCell: UITableViewCell {
 
 	private enum Consts {
@@ -15,6 +19,8 @@ final class TaskCell: UITableViewCell {
 													   bottom: 0,
 													   right: Margin.standart)
 	}
+
+	weak var delegate: TaskCellDelegate?
 
 	private let title: UILabel = {
 		let label = UILabel()
@@ -102,6 +108,7 @@ final class TaskCell: UITableViewCell {
 
 	private func setupActionsContainer() {
 		let editButton = Button(title: nil, image: UIImage.named("pencilEdit"))
+		editButton.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
 		actionsContainer.addArrangedSubview(editButton)
 		actionsContainer.addArrangedSubview(Button(title: "subtasks_count".loc(count: 0),
 												   image: UIImage.named("chevronRight")))
@@ -153,5 +160,9 @@ final class TaskCell: UITableViewCell {
 			actionsContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor,
 														  constant: Margin.standart).reversed
 		])
+	}
+
+	@objc private func editTapped() {
+		delegate?.editTapped(cell: self)
 	}
 }

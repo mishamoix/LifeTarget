@@ -45,6 +45,11 @@ final class ChangeTaskTextMainContainer: UIView {
 		setupUI()
 	}
 
+	func update(with task: Task) {
+		titleTextView.realText = task.title
+		expositionTextView.realText = task.exposition
+	}
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
