@@ -18,11 +18,12 @@ enum ChangeTaskScene {
 		let duration: Duration?
 		let progress: Progress?
 		let exposition: Exposition?
+		let isCompleted: Bool
 
 		var task: Task {
 			let task = Task(title: exposition?.title.cleanWhitespace ?? "", exposition: exposition?.subtitle,
 						progress: progress?.progress, duration: duration?.duration,
-						notification: nil, isCompleted: false, createDate: Date(),
+						notification: nil, isCompleted: isCompleted, createDate: Date(),
 						updateDate: Date(), subtasks: nil, parent: nil)
 
 			return task

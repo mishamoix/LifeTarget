@@ -58,3 +58,5 @@
 
 "sure_complete_task_title" = "Task completion";
 "sure_complete_task_subtitle" = "Are you sure you want to complete the task?";
+
+"is_completed" = "Is completed";

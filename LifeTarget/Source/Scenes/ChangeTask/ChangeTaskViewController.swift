@@ -46,6 +46,7 @@ final class ChangeTaskViewController: UIViewController {
 		return button
 	}()
 
+	private lazy var completionView = CompletionView()
 	private let changeTaskTextMainContainer = ChangeTaskTextMainContainer()
 	private lazy var durationPicker = DurationPicker(parent: self)
 	private let progressCounter = ProgressContainer()
@@ -72,6 +73,7 @@ final class ChangeTaskViewController: UIViewController {
 		scrollView.addSubview(stackContainer)
 
 		stackContainer.addArrangedSubview(changeTaskTextMainContainer)
+		stackContainer.addArrangedSubview(completionView)
 		stackContainer.addArrangedSubview(progressCounter)
 		stackContainer.addArrangedSubview(durationPicker)
 
@@ -102,8 +104,10 @@ final class ChangeTaskViewController: UIViewController {
 	}
 
 	@objc private func saveTapped() {
-		let model = ChangeTaskScene.Model(duration: durationPicker.duration, progress: progressCounter.progress,
-										  exposition: changeTaskTextMainContainer.exposition)
+		let model = ChangeTaskScene.Model(duration: durationPicker.duration,
+										  progress: progressCounter.progress,
+										  exposition: changeTaskTextMainContainer.exposition,
+										  isCompleted: completionView.isCompleted)
 		interactor.saveTapped(with: model, viewController: self)
 	}
 
@@ -153,7 +157,10 @@ extension ChangeTaskViewController: ChangeTaskDisplayLogic {
 			changeTaskTextMainContainer.update(with: task)
 			progressCounter.update(with: task)
 			durationPicker.update(with: task)
+			completionView.update(with: task)
 		}
+
+		completionView.isHidden = !model.isModify
 
 		if model.isModify {
 			addRemoveButton()

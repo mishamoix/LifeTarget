@@ -95,6 +95,7 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 				resultTask.duration = model.duration?.duration
 				resultTask.title = model.exposition?.title ?? resultTask.title
 				resultTask.exposition = model.exposition?.subtitle
+				resultTask.isCompleted = model.isCompleted
 				parentTask = changingTask.parent?.value
 			case .adding(let parent):
 				resultTask = model.task

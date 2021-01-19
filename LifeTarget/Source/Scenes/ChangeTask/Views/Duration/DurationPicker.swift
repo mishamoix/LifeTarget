@@ -84,7 +84,6 @@ final class DurationPicker: UIView {
 		container.backgroundColor = Colors.secondaryBackground
 		translatesAutoresizingMaskIntoConstraints = false
 		layer.cornerRadius = Sizes.cornerRadius
-//		clipsToBounds = true
 
 		removeDateButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
 

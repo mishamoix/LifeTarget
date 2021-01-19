@@ -1,5 +1,5 @@
 //
-//  CompleteView.swift
+//  CompleteButtonView.swift
 //  LifeTarget
 //
 //  Created by Mikhail Malyshev on 18.01.2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CompleteView: UIView {
+final class CompleteButtonView: UIView {
 
 	private enum Consts {
 		static let size: CGFloat = 36

@@ -56,7 +56,7 @@ final class TaskCell: UITableViewCell {
 		return view
 	}()
 
-	private let completeButton = CompleteView()
+	private let completeButton = CompleteButtonView()
 
 	private let taskProgressContainer: UIStackView = {
 		let view = UIStackView()

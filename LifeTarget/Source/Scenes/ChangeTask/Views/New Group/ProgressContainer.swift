@@ -26,7 +26,7 @@ final class ProgressContainer: UIView {
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.axis = .vertical
 		view.distribution = .equalSpacing
-		view.spacing = Margin.small
+		view.spacing = Margin.standart
 		return view
 	}()
 
