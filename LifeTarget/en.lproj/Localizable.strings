@@ -60,3 +60,6 @@
 "sure_complete_task_subtitle" = "Are you sure you want to complete the task?";
 
 "is_completed" = "Is completed";
+"or" = "or";
+
+"select_date_time" = "Select date and time";

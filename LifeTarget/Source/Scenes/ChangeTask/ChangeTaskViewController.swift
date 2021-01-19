@@ -50,6 +50,7 @@ final class ChangeTaskViewController: UIViewController {
 	private let changeTaskTextMainContainer = ChangeTaskTextMainContainer()
 	private lazy var durationPicker = DurationPicker(parent: self)
 	private let progressCounter = ProgressContainer()
+	private lazy var notificationView = NotificationView(baseView: self.view)
 
 	init(interactor: ChangeTaskInteractionLogic) {
 		self.interactor = interactor
@@ -76,6 +77,7 @@ final class ChangeTaskViewController: UIViewController {
 		stackContainer.addArrangedSubview(completionView)
 		stackContainer.addArrangedSubview(progressCounter)
 		stackContainer.addArrangedSubview(durationPicker)
+		stackContainer.addArrangedSubview(notificationView)
 
 		setupConstraints()
 
