@@ -28,6 +28,7 @@ final class TaskListInteractor {
 
 	private let parent: Task?
 	private weak var listener: TaskListInteractionListener?
+	private let nestedLevel: Int
 
 	init(router: TasksFlowable,
 		 presenter: TaskListPresentationLogic,
@@ -38,9 +39,10 @@ final class TaskListInteractor {
 		self.taskProvider = taskProvider
 		self.parent = input.parent
 		self.listener = input.listener
+		self.nestedLevel = input.nestedLevel
 	}
 
-	func fetchTasks() {
+	private func fetchTasks() {
 		taskProvider.fetchTasks(with: parent) { [weak self] tasks in
 			self?.presenter.show(tasks: tasks, parent: self?.parent)
 		}
@@ -50,6 +52,7 @@ final class TaskListInteractor {
 // MARK: - TaskListInteractionLogic
 extension TaskListInteractor: TaskListInteractionLogic {
 	func start() {
+		initialSetup()
 		fetchTasks()
 	}
 
@@ -62,7 +65,8 @@ extension TaskListInteractor: TaskListInteractionLogic {
 	}
 
 	func subtasksTapped(task: Task) {
-		router.openList(input: Scene.Input(parent: task, listener: self))
+		router.openList(input: Scene.Input(nestedLevel: nestedLevel + 1, parent: task,
+										   listener: self))
 	}
 
 	func plusTapped(task: Task) {
@@ -94,5 +98,15 @@ extension TaskListInteractor: TaskListInteractionListener {
 	func needUpdateParent() {
 		fetchTasks()
 		listener?.needUpdateParent()
+	}
+}
+
+private extension TaskListInteractor {
+	func initialSetup() {
+		if nestedLevel == 0 {
+			presenter.displayMainTitle()
+		} else {
+			presenter.displayNestedLevel(nestedLevel)
+		}
 	}
 }

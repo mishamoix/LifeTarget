@@ -76,7 +76,7 @@ extension Task {
 		if level <= 0, let childsDB = model.childs?.allObjects as? [TaskDB] {
 			childs = childsDB
 				.map({ Task(db: $0, level: level + 1) })
-				.sorted(by: { $0.createDate > $1.createDate })
+				.sortedTask()
 		}
 
 		if level <= 0,

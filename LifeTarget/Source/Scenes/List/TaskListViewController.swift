@@ -10,6 +10,7 @@ import UIKit
 protocol TaskListDisplayLogic: AnyObject {
 	func show(viewModel: TaskListScene.ViewModel)
 	func showEmptyScreen()
+	func setup(title: String)
 }
 
 final class TaskListViewController: UIViewController {
@@ -18,6 +19,17 @@ final class TaskListViewController: UIViewController {
 
 	private let interactor: TaskListInteractionLogic
 	private let tableView = UITableView(frame: .null, style: .plain)
+
+	private let addFirstTaskButton: UIButton = {
+		let view = Button(title: "add_first_task".loc, image: nil)
+		let inset = Margin.standart
+		view.contentEdgeInsets = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
+		view.layer.borderWidth = 2
+		view.layer.borderColor = Colors.accent.cgColor
+		view.minimumHeight = 36
+		view.layer.cornerRadius = 18
+		return view
+	}()
 
 	private var viewModel: Scene.ViewModel?
 
@@ -44,7 +56,10 @@ final class TaskListViewController: UIViewController {
 		navigationItem.rightBarButtonItem =
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTaskTapped))
 
+		addFirstTaskButton.addTarget(self, action: #selector(addFirstTaskTapped), for: .touchUpInside)
+
 		setupTableView()
+		view.addSubview(addFirstTaskButton)
 		setupConstraints()
 	}
 
@@ -70,7 +85,10 @@ final class TaskListViewController: UIViewController {
 			tableView.topAnchor.constraint(equalTo: view.topAnchor),
 			tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+			addFirstTaskButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+			addFirstTaskButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
 		])
 	}
 
@@ -95,14 +113,26 @@ final class TaskListViewController: UIViewController {
 
 // MARK: - TaskListDisplayLogic
 extension TaskListViewController: TaskListDisplayLogic {
-
 	func show(viewModel: Scene.ViewModel) {
 		self.viewModel = viewModel
 		tableView.reloadData()
+
+		addFirstTaskButton.isHidden = true
 	}
 
 	func showEmptyScreen() {
+		viewModel = nil
+		tableView.reloadData()
 
+		addFirstTaskButton.isHidden = false
+	}
+
+	func setup(title: String) {
+		navigationItem.title = title
+	}
+
+	@objc private func addFirstTaskTapped() {
+		interactor.addNewTaskTapped()
 	}
 }
 
@@ -133,7 +163,7 @@ extension TaskListViewController: UITableViewDataSource {
 extension TaskListViewController: TaskCellDelegate {
 	func editTapped(cell: TaskCell) {
 		if let index = tableView.indexPath(for: cell)?.row,
-		   let task = viewModel?.tasks[index].task {
+		   let task = viewModel?.tasks[realIndex(from: index)].task {
 			interactor.editTaskTapped(task: task)
 		}
 	}
@@ -155,7 +185,18 @@ extension TaskListViewController: TaskCellDelegate {
 	func completeTapped(cell: TaskCell) {
 		if let index = tableView.indexPath(for: cell)?.row,
 		   let task = viewModel?.tasks[realIndex(from: index)].task {
-			interactor.completeTapped(task: task)
+
+			let alert = UIAlertController(title: "sure_complete_task_title".loc,
+										  message: "sure_complete_task_subtitle".loc,
+										  preferredStyle: .alert)
+			
+			alert.addAction(UIAlertAction(title: "cancel".loc, style: .default))
+			alert.addAction(UIAlertAction(title: "complete_button".loc, style: .cancel,
+										  handler: { [weak self] _ in
+				self?.interactor.completeTapped(task: task)
+			}))
+
+			present(alert, animated: true, completion: nil)
 		}
 	}
 }

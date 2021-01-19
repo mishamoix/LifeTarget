@@ -22,8 +22,9 @@ final class TaskFactory: TaskFactoryProtocol {
 	}()
 
 	func buildTaskViewModel(with task: Task) -> TaskViewModel {
-
-		return TaskViewModel(task: task, progresses: buildProgresses(from: task))
+		return TaskViewModel(task: task,
+							 progresses: buildProgresses(from: task),
+							 subtasks: buildSubtasksLabel(task: task))
 	}
 
 	func buildTaskViewModels(with tasks: [Task]) -> [TaskViewModel] {
@@ -36,7 +37,7 @@ private extension TaskFactory {
 		var result: [ProgressViewModel] = []
 
 		if let progress = task.progress {
-			result.append(buildProgress(from: progress))
+			result.append(buildProgress(from: progress, task: task))
 		}
 
 		if let subtasks = task.subtasks, !subtasks.isEmpty {
@@ -49,12 +50,13 @@ private extension TaskFactory {
 		return result
 	}
 
-	func buildProgress(from progress: Task.Progress) -> ProgressViewModel {
+	func buildProgress(from progress: Task.Progress, task: Task) -> ProgressViewModel {
 		let progressLabel = "activities_progress".loc + ": \(Int(progress.current))/\(Int(progress.maxCount))"
+		let hasPlusButton = progress.current < progress.maxCount
 		let prog = ProgressViewModel(color: Colors.progress,
 									 progress: progress.current / progress.maxCount,
 									 subtitle: progressLabel,
-									 showPlus: progress.current < progress.maxCount)
+									 showPlus: !task.isCompleted && hasPlusButton)
 		return prog
 	}
 
@@ -100,5 +102,22 @@ private extension TaskFactory {
 		let prog = ProgressViewModel(color: Colors.timeLeft, progress: progress,
 									 subtitle: title, showPlus: false)
 		return prog
+	}
+
+	func buildSubtasksLabel(task: Task) -> String? {
+		if let subtasks = task.subtasks, !subtasks.isEmpty {
+			var subtaskList = subtasks
+				.lazy
+				.prefix(3)
+				.map(\.title)
+				.map({ "\t• \($0)" })
+				.joined(separator: "\n")
+
+			if subtasks.count > 3 { subtaskList += "\n\t..." }
+
+			return "subtasks".loc + ":\n" + subtaskList
+		} else {
+			return nil
+		}
 	}
 }

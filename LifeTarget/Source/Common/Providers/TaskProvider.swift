@@ -87,7 +87,7 @@ extension TaskProvider: TaskProviderProtocol {
 				return result([])
 			}
 
-			let tasks = tasksDB.map({ Task(db: $0) })
+			let tasks = tasksDB.map({ Task(db: $0) }).sortedTask()
 			return result(tasks)
 		}
 	}

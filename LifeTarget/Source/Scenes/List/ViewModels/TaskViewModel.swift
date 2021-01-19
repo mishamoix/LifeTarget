@@ -13,23 +13,17 @@ struct TaskViewModel {
 	let progresses: [ProgressViewModel]
 	let subtasks: String?
 
-	init(task: Task, progresses: [ProgressViewModel]) {
+	var title: String {
+		if task.isCompleted {
+			return "✅ " + task.title
+		}
+
+		return task.title
+	}
+
+	init(task: Task, progresses: [ProgressViewModel], subtasks: String?) {
 		self.task = task
 		self.progresses = progresses
-
-		if let subtasks = task.subtasks, !subtasks.isEmpty {
-			var subtaskList = subtasks
-				.lazy
-				.prefix(3)
-				.map(\.title)
-				.map({ "\t• \($0)" })
-				.joined(separator: "\n")
-
-			if subtasks.count > 3 { subtaskList += "\n\t..." }
-
-			self.subtasks = "subtasks".loc + ":\n" + subtaskList
-		} else {
-			self.subtasks = nil
-		}
+		self.subtasks = subtasks
 	}
 }

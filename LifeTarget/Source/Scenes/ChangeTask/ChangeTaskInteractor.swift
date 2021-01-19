@@ -85,14 +85,19 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 			return
 		}
 
-		var resultTask = model.task
+		var resultTask: Task
 		var parentTask: Task?
 
 		switch task {
 			case .change(let changingTask):
-				resultTask.id = changingTask.id
+				resultTask = changingTask
+				resultTask.progress = model.progress?.progress
+				resultTask.duration = model.duration?.duration
+				resultTask.title = model.exposition?.title ?? resultTask.title
+				resultTask.exposition = model.exposition?.subtitle
 				parentTask = changingTask.parent?.value
 			case .adding(let parent):
+				resultTask = model.task
 				parentTask = parent
 		}
 

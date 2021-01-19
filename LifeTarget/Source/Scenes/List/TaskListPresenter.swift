@@ -8,6 +8,8 @@
 import Foundation
 
 protocol TaskListPresentationLogic {
+	func displayNestedLevel(_ level: Int)
+	func displayMainTitle()
 	func show(tasks: [Task], parent: Task?)
 }
 
@@ -27,7 +29,9 @@ final class TaskListPresenter {
 extension TaskListPresenter: TaskListPresentationLogic {
 	func show(tasks: [Task], parent: Task?) {
 		if tasks.isEmpty {
-			view?.showEmptyScreen()
+			DispatchQueue.main.async {
+				self.view?.showEmptyScreen()
+			}
 			return
 		}
 
@@ -41,6 +45,20 @@ extension TaskListPresenter: TaskListPresentationLogic {
 
 		DispatchQueue.main.async {
 			self.view?.show(viewModel: TaskListScene.ViewModel(parent: parentViewModel, tasks: viewModels))
+		}
+	}
+
+	func displayNestedLevel(_ level: Int) {
+		DispatchQueue.main.async {
+			let resultLevel = level + 1
+			let title = "nested_level".loc + ": \(resultLevel)"
+			self.view?.setup(title: title)
+		}
+	}
+
+	func displayMainTitle() {
+		DispatchQueue.main.async {
+			self.view?.setup(title: "main_list_title".loc)
 		}
 	}
 }

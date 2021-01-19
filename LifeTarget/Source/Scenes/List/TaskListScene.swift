@@ -23,10 +23,12 @@ enum TaskListScene {
 	struct Input {
 		let parent: Task?
 		let listener: TaskListInteractionListener?
+		let nestedLevel: Int
 
-		init(parent: Task? = nil, listener: TaskListInteractionListener? = nil) {
+		init(nestedLevel: Int = 0, parent: Task? = nil, listener: TaskListInteractionListener? = nil) {
 			self.parent = parent
 			self.listener = listener
+			self.nestedLevel = nestedLevel
 		}
 	}
 }

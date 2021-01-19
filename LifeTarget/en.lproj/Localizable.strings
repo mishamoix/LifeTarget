@@ -18,7 +18,7 @@
 "change_task" = "Modify";
 
 "title_placeholder" = "Task title";
-"exposition_placeholder" = "Task exposition";
+"exposition_placeholder" = "Task description";
 
 "select_date" = "Select date";
 "start_date" = "Start date";
@@ -28,9 +28,9 @@
 "you_want_delete_date" = "Do you really want to remove dates?";
 "delete" = "Delete";
 
-"current_progress" = "Current count";
-"max_count_progress_title" = "Max progress count";
-"progress_exposition" = "Max progress count is a number which represent count of activities. Example: I want read 400 pages of book. I got activity for each page and result is 400";
+"current_activities" = "Current activities";
+"max_count_activities_title" = "Max activities";
+"progress_exposition" = "Max activities is a number which represent count of activities. Example: I want read 400 pages of book. I got activity for each page and result is 400.";
 "progress_placeholder" = "400";
 
 "duration_start_nil" = "Start time is empty";
@@ -49,5 +49,12 @@
 "remove_task_subtitle" = "Do you really want to remove this task? You will not able to restore task";
 
 "subtasks" = "Subtasks";
-
 "complete_button" = "Complete";
+
+"nested_level" = "Nested level";
+"main_list_title" = "Main targets";
+
+"add_first_task" = "Add first task";
+
+"sure_complete_task_title" = "Task completion";
+"sure_complete_task_subtitle" = "Are you sure you want to complete the task?";

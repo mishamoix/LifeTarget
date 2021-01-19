@@ -41,7 +41,7 @@ final class TaskExpositionView: UIView {
 	}
 
 	func update(with task: TaskViewModel) {
-		title.text = task.task.title
+		title.text = task.title
 		exposition.text = task.task.exposition
 	}
 

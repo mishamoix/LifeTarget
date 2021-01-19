@@ -64,7 +64,7 @@ final class ChangeTaskTextMainContainer: UIView {
 		NSLayoutConstraint.activate([
 			titleTextView.topAnchor.constraint(equalTo: topAnchor, constant: Margin.small),
 			titleTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margin.standart),
-			titleTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			titleTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Margin.small).reversed,
 
 			separator.topAnchor.constraint(equalTo: titleTextView.bottomAnchor),
 			separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margin.large - 2),
@@ -72,7 +72,7 @@ final class ChangeTaskTextMainContainer: UIView {
 
 			expositionTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: Margin.small),
 			expositionTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Margin.standart),
-			expositionTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			expositionTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Margin.small).reversed,
 			expositionTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Margin.small).reversed
 		])
 	}

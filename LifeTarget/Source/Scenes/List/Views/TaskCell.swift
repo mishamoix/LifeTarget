@@ -52,6 +52,7 @@ final class TaskCell: UITableViewCell {
 		view.axis = .vertical
 		view.distribution = .equalSpacing
 		view.spacing = Margin.standart
+
 		return view
 	}()
 
@@ -93,6 +94,8 @@ final class TaskCell: UITableViewCell {
 
 		subtasksLabel.text = task.subtasks
 		subtasksLabel.isHidden = task.subtasks == nil
+
+		completeButton.isHidden = task.task.isCompleted
 
 		subtasksButton.setTitle("subtasks_count".loc(count: task.task.subtasks?.count ?? 0),
 								for: .normal)

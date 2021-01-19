@@ -19,8 +19,8 @@ final class ParentCell: UITableViewCell {
 
 	private let title: UILabel = {
 		let label = UILabel()
-		label.textColor = Colors.label
-		label.font = Fonts.title
+		label.textColor = Colors.accent
+		label.font = Fonts.navigationTitle
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.numberOfLines = 0
 		return label

@@ -38,7 +38,7 @@ final class TaskProgressView: UIView {
 
 	private let plusButton: UIButton = {
 		let button = Button(title: nil, image: UIImage.named("circlePlus"))
-		let inset: CGFloat = 3
+		let inset: CGFloat = 9
 		button.contentEdgeInsets = UIEdgeInsets(inset: inset)
 		return button
 	}()
@@ -92,9 +92,9 @@ final class TaskProgressView: UIView {
 			title.trailingAnchor.constraint(equalTo: trailingAnchor),
 			title.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-			plusButton.heightAnchor.constraint(equalToConstant: Consts.plusSize),
-			plusButton.widthAnchor.constraint(equalToConstant: Consts.plusSize),
-			plusButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+			plusButton.heightAnchor.constraint(equalToConstant: Sizes.buttonSize),
+			plusButton.widthAnchor.constraint(equalToConstant: Sizes.buttonSize),
+			plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Margin.standart),
 			plusButton.centerYAnchor.constraint(equalTo: progressView.centerYAnchor)
 		])
 	}

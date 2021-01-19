@@ -30,8 +30,8 @@ final class ProgressContainer: UIView {
 		return view
 	}()
 
-	private let currentField = ProgressField(title: "current_progress".loc, placeholder: "10")
-	private let maxCountField = ProgressField(title: "max_count_progress_title".loc, placeholder: "400")
+	private let currentField = ProgressField(title: "current_activities".loc, placeholder: "10")
+	private let maxCountField = ProgressField(title: "max_count_activities_title".loc, placeholder: "400")
 
 	var progress: ChangeTaskScene.Progress? {
 		guard let maxProgress = maxCountField.value else {
