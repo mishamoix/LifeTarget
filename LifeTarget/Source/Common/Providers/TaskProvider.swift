@@ -69,7 +69,7 @@ extension TaskProvider: TaskProviderProtocol {
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void) {
 		readContext.perform { [weak self] in
 
-			let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: false)
+			let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: true)
 
 			let entries: [TaskDB]?
 

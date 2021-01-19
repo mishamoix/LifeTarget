@@ -87,6 +87,10 @@ final class TaskListViewController: UIViewController {
 
 		return cell
 	}
+
+	private func realIndex(from index: Int) -> Int {
+		return hasParent ? index - 1 : index
+	}
 }
 
 // MARK: - TaskListDisplayLogic
@@ -117,8 +121,7 @@ extension TaskListViewController: UITableViewDataSource {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.identifier, for: indexPath)
 
-		let index = hasParent ? indexPath.row - 1 : indexPath.row
-		if let cell = cell as? TaskCell, let task = viewModel?.tasks[index] {
+		if let cell = cell as? TaskCell, let task = viewModel?.tasks[realIndex(from: indexPath.row)] {
 			cell.delegate = self
 			cell.update(with: task)
 		}
@@ -137,21 +140,21 @@ extension TaskListViewController: TaskCellDelegate {
 
 	func subtasksOpenTapped(cell: TaskCell) {
 		if let index = tableView.indexPath(for: cell)?.row,
-		   let task = viewModel?.tasks[index].task {
+		   let task = viewModel?.tasks[realIndex(from: index)].task {
 			interactor.subtasksTapped(task: task)
 		}
 	}
 
 	func plusTapped(cell: TaskCell) {
 		if let index = tableView.indexPath(for: cell)?.row,
-		   let task = viewModel?.tasks[index].task {
+		   let task = viewModel?.tasks[realIndex(from: index)].task {
 			interactor.plusTapped(task: task)
 		}
 	}
 
 	func completeTapped(cell: TaskCell) {
 		if let index = tableView.indexPath(for: cell)?.row,
-		   let task = viewModel?.tasks[index].task {
+		   let task = viewModel?.tasks[realIndex(from: index)].task {
 			interactor.completeTapped(task: task)
 		}
 	}
