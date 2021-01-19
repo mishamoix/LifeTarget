@@ -21,7 +21,7 @@ final class NotificationView: BaseView {
 
 	private lazy var exactDateTimeView = NotificationDateTimeView(baseView: baseView)
 	private let separator = NotificationDelimeterView()
-	private let pereodicalTime = NotificationPereodicalTime()
+	private lazy var pereodicalTime = NotificationPereodicalTime(baseView: baseView)
 
 	private let baseView: UIView
 

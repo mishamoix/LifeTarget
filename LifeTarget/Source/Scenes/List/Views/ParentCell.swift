@@ -42,6 +42,7 @@ final class ParentCell: UITableViewCell {
 	private func setupUI() {
 		backgroundColor = .clear
 		contentView.backgroundColor = .clear
+		selectionStyle = .none
 
 		contentView.addSubview(container)
 		container.addSubview(title)

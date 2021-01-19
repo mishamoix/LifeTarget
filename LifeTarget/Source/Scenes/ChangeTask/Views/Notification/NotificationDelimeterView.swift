@@ -18,7 +18,7 @@ final class NotificationDelimeterView: BaseView {
 		let view = UILabel()
 		view.textColor = Colors.secondaryLabel
 		view.font = Fonts.caption
-		view.text = " or ".loc
+		view.text = "   " + "or".loc + "   "
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = Colors.secondaryBackground
 		return view

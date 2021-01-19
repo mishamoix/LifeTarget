@@ -87,6 +87,7 @@ final class ChangeTaskViewController: UIViewController {
 		}
 
 		let tap = UITapGestureRecognizer(target: self, action: #selector(tappedAtScroll))
+		tap.cancelsTouchesInView = false
 		scrollView.addGestureRecognizer(tap)
 	}
 
