@@ -80,7 +80,7 @@ final class TaskCell: UITableViewCell {
 	private let notificationLabel: UILabel = {
 		let label = UILabel()
 		label.textColor = Colors.secondaryLabel
-		label.font = Fonts.text
+		label.font = Fonts.caption
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.numberOfLines = 0
 		return label
