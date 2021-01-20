@@ -110,7 +110,8 @@ final class ChangeTaskViewController: UIViewController {
 		let model = ChangeTaskScene.Model(duration: durationPicker.duration,
 										  progress: progressCounter.progress,
 										  exposition: changeTaskTextMainContainer.exposition,
-										  isCompleted: completionView.isCompleted)
+										  isCompleted: completionView.isCompleted,
+										  notification: notificationView.notification)
 		interactor.saveTapped(with: model, viewController: self)
 	}
 
@@ -161,6 +162,7 @@ extension ChangeTaskViewController: ChangeTaskDisplayLogic {
 			progressCounter.update(with: task)
 			durationPicker.update(with: task)
 			completionView.update(with: task)
+			notificationView.update(with: task)
 		}
 
 		completionView.isHidden = !model.isModify

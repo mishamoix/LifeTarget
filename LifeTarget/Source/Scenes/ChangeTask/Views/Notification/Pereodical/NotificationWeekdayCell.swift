@@ -40,7 +40,7 @@ final class NotificationWeekdayCell: UICollectionViewCell {
 		])
 	}
 
-	func update(with model: WeekdayModel) {
+	func update(with model: WeekdayModel.Weekday) {
 		weekdayLabel.text = model.name
 
 		contentView.backgroundColor = model.isSelected ? Colors.accent : Colors.background

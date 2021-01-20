@@ -64,3 +64,12 @@
 
 "select_date_time" = "Select date and time";
 "select_time" = "Select time";
+
+"notification_title" = "Notifications";
+"notification_exposition" = "Choose exact date and time in order to get notification or choose weekdays and time for periodic notifications.";
+
+"lets_start_work_notification" = "Time to work";
+"task" = "Task";
+
+"notification" = "Notification";
+"every" = "every";

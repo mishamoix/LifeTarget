@@ -29,17 +29,20 @@ final class TaskListInteractor {
 	private let parent: Task?
 	private weak var listener: TaskListInteractionListener?
 	private let nestedLevel: Int
+	private let notificationService: NotificationServiceProtocol
 
 	init(router: TasksFlowable,
 		 presenter: TaskListPresentationLogic,
 		 taskProvider: TaskProviderProtocol,
-		 input: Scene.Input) {
+		 input: Scene.Input,
+		 notificationService: NotificationServiceProtocol) {
 		self.router = router
 		self.presenter = presenter
 		self.taskProvider = taskProvider
 		self.parent = input.parent
 		self.listener = input.listener
 		self.nestedLevel = input.nestedLevel
+		self.notificationService = notificationService
 	}
 
 	private func fetchTasks() {
@@ -82,6 +85,7 @@ extension TaskListInteractor: TaskListInteractionLogic {
 		var resultTask = task
 		resultTask.isCompleted = true
 		taskProvider.save(task: resultTask, parent: resultTask.parent?.value) { [weak self] in
+			self?.notificationService.update(action: .remove(id: resultTask.id))
 			self?.needUpdateParent()
 		}
 	}

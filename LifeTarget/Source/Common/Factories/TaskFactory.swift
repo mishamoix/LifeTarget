@@ -21,10 +21,26 @@ final class TaskFactory: TaskFactoryProtocol {
 		return formatter
 	}()
 
+	private let notificationExactDateFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		formatter.timeStyle = .short
+		return formatter
+	}()
+
+	private let timeFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "HH:mm"
+		return formatter
+	}()
+
+	private let weekdayModel = WeekdayModel()
+
 	func buildTaskViewModel(with task: Task) -> TaskViewModel {
 		return TaskViewModel(task: task,
 							 progresses: buildProgresses(from: task),
-							 subtasks: buildSubtasksLabel(task: task))
+							 subtasks: buildSubtasksLabel(task: task),
+							 notificationString: buildNotificationString(task))
 	}
 
 	func buildTaskViewModels(with tasks: [Task]) -> [TaskViewModel] {
@@ -119,5 +135,26 @@ private extension TaskFactory {
 		} else {
 			return nil
 		}
+	}
+
+	func buildNotificationString(_ task: Task) -> String? {
+		guard !task.isCompleted else { return nil }
+
+		if let exactDate = task.notification?.date, exactDate > Date() {
+			return "🔔 "
+				+ "notification".loc
+				+ ": \(notificationExactDateFormatter.string(from: exactDate))"
+		} else if let weekdays = task.notification?.weekdays,
+				  let time = task.notification?.dayTime?.date {
+			let weekdaysString = weekdays.compactMap({ weekdayModel[$0]?.name }).joined(separator: ", ")
+			return "🔔 "
+				+ "notification".loc
+				+ ": \(timeFormatter.string(from: time)) "
+				+ "every".loc
+				+ " "
+				+ weekdaysString
+		}
+
+		return nil
 	}
 }

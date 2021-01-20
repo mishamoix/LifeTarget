@@ -77,6 +77,15 @@ final class TaskCell: UITableViewCell {
 		return view
 	}()
 
+	private let notificationLabel: UILabel = {
+		let label = UILabel()
+		label.textColor = Colors.secondaryLabel
+		label.font = Fonts.text
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.numberOfLines = 0
+		return label
+	}()
+
 	private let subtasksButton = Button(title: nil,
 										image: UIImage.named("chevronRight"))
 
@@ -96,6 +105,9 @@ final class TaskCell: UITableViewCell {
 		subtasksLabel.isHidden = task.subtasks == nil
 
 		completeButton.isHidden = task.task.isCompleted
+
+		notificationLabel.isHidden = task.notificationString == nil
+		notificationLabel.text = task.notificationString
 
 		subtasksButton.setTitle("subtasks_count".loc(count: task.task.subtasks?.count ?? 0),
 								for: .normal)
@@ -122,6 +134,7 @@ final class TaskCell: UITableViewCell {
 		stackContainer.addArrangedSubview(taskExpositionView)
 		stackContainer.addArrangedSubview(subtasksLabel)
 		stackContainer.addArrangedSubview(taskProgressContainer)
+		stackContainer.addArrangedSubview(notificationLabel)
 		stackContainer.addArrangedSubview(completeButton)
 		stackContainer.addArrangedSubview(Separator())
 		stackContainer.addArrangedSubview(actionsContainer)

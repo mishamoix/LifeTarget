@@ -9,8 +9,8 @@ import UIKit
 
 final class NotificationPereodicalTime: BaseView {
 
-	private var weekdays: [WeekdayModel] = WeekdayGenerator.generate()
-	private var currentTime: Date?
+	private(set) var weekdays = WeekdayModel()
+	private(set) var currentTime: Date?
 
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
@@ -56,14 +56,28 @@ final class NotificationPereodicalTime: BaseView {
 	}()
 
 	private let baseView: UIView
+	private weak var delegate: NotificationSubviewDelegate?
 
-	init(baseView: UIView) {
+	init(baseView: UIView, delegate: NotificationSubviewDelegate) {
 		self.baseView = baseView
 		super.init()
+		self.delegate = delegate
 	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+
+	func nullify() {
+		currentTime = nil
+		weekdays.reset()
+		refreshViews()
+	}
+
+	func update(with notification: PushNotification) {
+		currentTime = notification.dayTime?.date
+		notification.weekdays?.forEach({ weekdays.update(index: $0, value: true) })
+		refreshViews()
 	}
 
 	override func setupUI() {
@@ -101,22 +115,19 @@ final class NotificationPereodicalTime: BaseView {
 		])
 	}
 
-	@objc func selectTimeTapped() {
+	@objc private func selectTimeTapped() {
 		datePicker.picker.date = currentTime ?? Date()
 		datePicker.selectDate(on: baseView) { [weak self] date in
 			self?.currentTime = date ?? self?.currentTime
+			if self?.currentTime != nil {
+				self?.delegate?.didSelectTime(with: .pereodically)
+			}
 			self?.refreshViews()
 		}
 	}
 
-	@objc func removeTapped() {
-		currentTime = nil
-		weekdays = weekdays.map({ value in
-			var val = value
-			val.isSelected = false
-			return val
-		})
-		refreshViews()
+	@objc private func removeTapped() {
+		nullify()
 	}
 
 	private func refreshViews() {
@@ -132,7 +143,7 @@ final class NotificationPereodicalTime: BaseView {
 
 	private func refreshDeleteButton() {
 		let showDeleteButton = currentTime != nil
-			|| weekdays.first(where: { $0.isSelected }) != nil
+			|| weekdays.hasSelected
 
 		removeButton.isHidden = !showDeleteButton
 	}
@@ -147,8 +158,8 @@ extension NotificationPereodicalTime: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificationWeekdayCell.identifier, for: indexPath)
 
-		if let cell = cell as? NotificationWeekdayCell {
-			cell.update(with: weekdays[indexPath.item])
+		if let cell = cell as? NotificationWeekdayCell, let item = weekdays[indexPath.item] {
+			cell.update(with: item)
 		}
 
 		return cell
@@ -157,9 +168,11 @@ extension NotificationPereodicalTime: UICollectionViewDataSource {
 
 extension NotificationPereodicalTime: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		weekdays[indexPath.item].isSelected.toggle()
+		weekdays.toggle(at: indexPath.item)
 		collectionView.reloadData()
 		refreshDeleteButton()
 		collectionView.deselectItem(at: indexPath, animated: true)
+
+		delegate?.didSelectTime(with: .pereodically)
 	}
 }

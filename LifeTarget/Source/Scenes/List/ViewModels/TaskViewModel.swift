@@ -12,6 +12,7 @@ struct TaskViewModel {
 	let task: Task
 	let progresses: [ProgressViewModel]
 	let subtasks: String?
+	let notificationString: String?
 
 	var title: String {
 		if task.isCompleted {
@@ -21,9 +22,10 @@ struct TaskViewModel {
 		return task.title
 	}
 
-	init(task: Task, progresses: [ProgressViewModel], subtasks: String?) {
+	init(task: Task, progresses: [ProgressViewModel], subtasks: String?, notificationString: String?) {
 		self.task = task
 		self.progresses = progresses
 		self.subtasks = subtasks
+		self.notificationString = notificationString
 	}
 }

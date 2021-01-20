@@ -17,6 +17,7 @@ final class TasksFlow {
 	private let baseViewController: MainViewController
 	private let baseNavigationViewController = NavigationController()
 	private lazy var taskProvider = TaskProvider(db: DatabaseCoordinator(name: "Models"))
+	private let notifications = NotificationService.shared
 
 	init(base viewController: MainViewController) {
 		self.baseViewController = viewController
@@ -31,7 +32,8 @@ final class TasksFlow {
 	private func buildTaskList(input: TaskListScene.Input) -> UIViewController {
 		let presenter = TaskListPresenter(factory: TaskFactory())
 		let interactor = TaskListInteractor(router: self, presenter: presenter,
-											taskProvider: taskProvider, input: input)
+											taskProvider: taskProvider, input: input,
+											notificationService: notifications)
 		let view = TaskListViewController(interactor: interactor)
 
 		presenter.view = view
@@ -47,7 +49,9 @@ final class TasksFlow {
 								 listener: ChangeTaskInteractionListener) -> UIViewController {
 		let presenter = ChangeTaskPresenter()
 		let interactor = ChangeTaskInteractor(task: task.changeInput, router: self,
-											  presenter: presenter, taskProvider: taskProvider, listener: listener)
+											  presenter: presenter, taskProvider: taskProvider,
+											  notificationService: notifications,
+											  listener: listener)
 		let view = ChangeTaskViewController(interactor: interactor)
 
 		presenter.view = view

@@ -21,13 +21,6 @@ struct Task: IdentifiableInput {
 		var end: Date
 	}
 
-	struct Notification: Equatable {
-		var weekdays: [Int]?
-		var dayTime: TimeInterval?
-
-		var date: Date?
-	}
-
 	struct Progress: Equatable {
 		var maxCount: Float
 		var current: Float
@@ -40,7 +33,7 @@ struct Task: IdentifiableInput {
 
 	var progress: Progress?
 	var duration: Duration?
-	var notification: Notification?
+	var notification: PushNotification?
 
 	var isCompleted: Bool
 

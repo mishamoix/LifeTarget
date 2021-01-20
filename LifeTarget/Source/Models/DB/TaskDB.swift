@@ -84,8 +84,12 @@ extension Task {
 			parent = Task(db: parentDB, level: level + 1)
 		}
 
+		let notification = PushNotification(weekdays: model.notificationWeekdays?.sorted(),
+										dayTime: model.notificationDayTime?.doubleValue,
+										date: model.notificationDate?.date)
+
 		self.init(id: model.id, title: model.title, exposition: model.exposition,
-				  progress: progress, duration: duration, notification: nil,
+				  progress: progress, duration: duration, notification: notification,
 				  isCompleted: model.isCompleted, createDate: model.createDate.date,
 				  updateDate: model.updateDate.date, subtasks: childs, parent: Wrapper(parent))
 	}

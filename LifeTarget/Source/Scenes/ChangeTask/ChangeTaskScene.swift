@@ -19,6 +19,7 @@ enum ChangeTaskScene {
 		let progress: Progress?
 		let exposition: Exposition?
 		let isCompleted: Bool
+		let notification: Notify?
 
 		var task: Task {
 			let task = Task(title: exposition?.title.cleanWhitespace ?? "", exposition: exposition?.subtitle,
@@ -109,6 +110,17 @@ enum ChangeTaskScene {
 			}
 
 			return nil
+		}
+	}
+
+	struct Notify {
+		let exactDate: Date?
+
+		let weekdays: [Int]?
+		let time: Date?
+
+		var notification: PushNotification {
+			return PushNotification(weekdays: weekdays, dayTime: time?.timeIntervalSince1970, date: exactDate)
 		}
 	}
 }

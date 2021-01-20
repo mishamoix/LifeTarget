@@ -29,16 +29,19 @@ final class ChangeTaskInteractor {
 	private let task: Scene.Input
 	private let taskProvider: TaskProviderProtocol
 	private weak var listener: ChangeTaskInteractionListener?
+	private let notificationService: NotificationServiceProtocol
 
 	init(task: Scene.Input,
 		 router: TasksFlowable,
 		 presenter: ChangeTaskPresentationLogic,
 		 taskProvider: TaskProviderProtocol,
+		 notificationService: NotificationServiceProtocol,
 		 listener: ChangeTaskInteractionListener? = nil) {
 		self.task = task
 		self.router = router
 		self.presenter = presenter
 		self.taskProvider = taskProvider
+		self.notificationService = notificationService
 		self.listener = listener
 	}
 
@@ -62,6 +65,16 @@ final class ChangeTaskInteractor {
 		}
 
 		return errors
+	}
+
+	private func updateNotification(with task: Task) {
+		if let notification = task.notification, !task.isCompleted {
+			notificationService.update(action: .add(id: task.id, notification: notification,
+													title: "lets_start_work_notification".loc,
+													message: "task".loc + ": \(task.title)"))
+		} else {
+			notificationService.update(action: .remove(id: task.id))
+		}
 	}
 }
 
@@ -96,6 +109,7 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 				resultTask.title = model.exposition?.title ?? resultTask.title
 				resultTask.exposition = model.exposition?.subtitle
 				resultTask.isCompleted = model.isCompleted
+				resultTask.notification = model.notification?.notification
 				parentTask = changingTask.parent?.value
 			case .adding(let parent):
 				resultTask = model.task
@@ -108,6 +122,8 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 				viewController?.dismiss(animated: true, completion: nil)
 			}
 		}
+
+		updateNotification(with: resultTask)
 	}
 
 	func closeTapped(viewController: UIViewController) {

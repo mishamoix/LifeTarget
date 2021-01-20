@@ -34,10 +34,22 @@ final class NotificationDateTimeView: BaseView {
 	}()
 
 	private let baseView: UIView
+	private weak var delegate: NotificationSubviewDelegate?
 
-	init(baseView: UIView) {
+	init(baseView: UIView, delegate: NotificationSubviewDelegate) {
 		self.baseView = baseView
 		super.init()
+		self.delegate = delegate
+	}
+
+	func nullify() {
+		currentDate = nil
+		updateViews()
+	}
+
+	func update(with notification: PushNotification) {
+		currentDate = notification.date
+		updateViews()
 	}
 
 	required init?(coder: NSCoder) {
@@ -68,13 +80,15 @@ final class NotificationDateTimeView: BaseView {
 		datePicker.picker.date = currentDate ?? Date()
 		datePicker.selectDate(on: baseView) { [weak self] date in
 			self?.currentDate = date ?? self?.currentDate
+			if self?.currentDate != nil {
+				self?.delegate?.didSelectTime(with: .exactTime)
+			}
 			self?.updateViews()
 		}
 	}
 
 	@objc private func removeButtonTapped() {
-		currentDate = nil
-		updateViews()
+		nullify()
 	}
 
 	private func updateViews() {
