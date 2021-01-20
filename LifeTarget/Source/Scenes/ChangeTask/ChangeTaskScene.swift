@@ -119,8 +119,13 @@ enum ChangeTaskScene {
 		let weekdays: [Int]?
 		let time: Date?
 
-		var notification: PushNotification {
-			return PushNotification(weekdays: weekdays, dayTime: time?.timeIntervalSince1970, date: exactDate)
+		var notification: PushNotification? {
+			if let weekdays = weekdays, let time = time?.timeIntervalSince1970 {
+				return PushNotification(weekdays: weekdays, dayTime: time, date: nil)
+			} else if let date = exactDate {
+				return PushNotification(weekdays: nil, dayTime: nil, date: date)
+			}
+			return nil
 		}
 	}
 }
