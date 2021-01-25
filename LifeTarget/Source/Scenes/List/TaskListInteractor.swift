@@ -46,6 +46,7 @@ final class TaskListInteractor {
 	}
 
 	private func fetchTasks() {
+		presenter.startLoading()
 		taskProvider.fetchTasks(with: parent) { [weak self] tasks in
 			guard let self = self else { return }
 			self.presenter.show(tasks: tasks, parent: self.parent, nestedLevel: self.nestedLevel)

@@ -11,6 +11,7 @@ protocol TaskListPresentationLogic {
 	func displayTaskName(name: String)
 	func displayMainTitle()
 	func show(tasks: [Task], parent: Task?, nestedLevel: Int)
+	func startLoading()
 }
 
 final class TaskListPresenter {
@@ -28,8 +29,15 @@ final class TaskListPresenter {
 
 extension TaskListPresenter: TaskListPresentationLogic {
 	func show(tasks: [Task], parent: Task?, nestedLevel: Int) {
+
+		defer {
+			DispatchQueue.mainAsyncIfNeeded {
+				self.view?.updateLoader(hidden: true)
+			}
+		}
+
 		if tasks.isEmpty {
-			DispatchQueue.main.async {
+			DispatchQueue.mainAsyncIfNeeded {
 				self.view?.showEmptyScreen()
 			}
 			return
@@ -43,7 +51,7 @@ extension TaskListPresenter: TaskListPresentationLogic {
 			parentViewModel = nil
 		}
 
-		DispatchQueue.main.async {
+		DispatchQueue.mainAsyncIfNeeded {
 			let viewModel = TaskListScene.ViewModel(parent: parentViewModel,
 													tasks: viewModels, nestedLevel: nestedLevel + 1)
 			self.view?.show(viewModel: viewModel)
@@ -51,14 +59,20 @@ extension TaskListPresenter: TaskListPresentationLogic {
 	}
 
 	func displayTaskName(name: String) {
-		DispatchQueue.main.async {
+		DispatchQueue.mainAsyncIfNeeded {
 			self.view?.setup(title: name)
 		}
 	}
 
 	func displayMainTitle() {
-		DispatchQueue.main.async {
+		DispatchQueue.mainAsyncIfNeeded {
 			self.view?.setup(title: "main_list_title".loc)
+		}
+	}
+
+	func startLoading() {
+		DispatchQueue.mainAsyncIfNeeded {
+			self.view?.updateLoader(hidden: false)
 		}
 	}
 }

@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol TaskListDisplayLogic: AnyObject {
+protocol TaskListDisplayLogic: AnyObject, ViewControllerLoadable {
 	func show(viewModel: TaskListScene.ViewModel)
 	func showEmptyScreen()
 	func setup(title: String)
 }
 
-final class TaskListViewController: UIViewController {
+final class TaskListViewController: ViewController {
 
 	typealias Scene = TaskListScene
 

@@ -9,5 +9,4 @@ target 'LifeTarget' do
   pod 'InputMask', '6.0.0'
   pod 'MBProgressHUD', '1.2.0'
 
-
 end
