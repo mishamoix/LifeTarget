@@ -54,7 +54,7 @@
 "nested_level" = "Nested level";
 "main_list_title" = "Main targets";
 
-"add_first_task" = "Add first task";
+"add_first_task" = "Add task";
 
 "sure_complete_task_title" = "Task completion";
 "sure_complete_task_subtitle" = "Are you sure you want to complete the task?";

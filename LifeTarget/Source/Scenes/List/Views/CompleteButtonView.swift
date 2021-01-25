@@ -9,19 +9,15 @@ import UIKit
 
 final class CompleteButtonView: UIView {
 
-	private enum Consts {
-		static let size: CGFloat = 36
-	}
-
 	var tapped: (() -> Void)?
 
 	private let button: UIButton = {
 		let view = Button(title: "complete_button".loc, image: nil)
-		view.contentEdgeInsets = UIEdgeInsets(horizontal: Margin.large)
-		view.minimumHeight = Consts.size
+		view.contentEdgeInsets = UIEdgeInsets(horizontal: Margin.standart)
+		view.minimumHeight = Sizes.flattenButtonHeight
 		view.setTitleColor(Colors.label, for: .normal)
 		view.backgroundColor = Colors.lightBackground
-		view.layer.cornerRadius = Sizes.cornerRadius
+		view.layer.cornerRadius = Sizes.smallCornerRadius
 		view.addShadow()
 		return view
 	}()

@@ -22,12 +22,12 @@ final class TaskListViewController: ViewController {
 
 	private let addFirstTaskButton: UIButton = {
 		let view = Button(title: "add_first_task".loc, image: nil)
-		let inset = Margin.standart
-		view.contentEdgeInsets = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
-		view.minimumHeight = 36
+		view.contentEdgeInsets = UIEdgeInsets(horizontal: Margin.standart)
+		view.minimumHeight = Sizes.flattenButtonHeight
 		view.setTitleColor(Colors.label, for: .normal)
 		view.backgroundColor = Colors.lightBackground
-		view.layer.cornerRadius = Sizes.cornerRadius
+		view.titleLabel?.font = Fonts.button
+		view.layer.cornerRadius = Sizes.smallCornerRadius
 		view.addShadow()
 		return view
 	}()

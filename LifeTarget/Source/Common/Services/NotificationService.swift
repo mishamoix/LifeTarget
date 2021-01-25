@@ -43,7 +43,7 @@ final class NotificationService: NSObject {
 
 	private func remove(by id: String) {
 		let ids = (0..<Consts.maxCount).map({ makeId(id: id, number: $0) })
-		notificationService.removeDeliveredNotifications(withIdentifiers: ids)
+		notificationService.removePendingNotificationRequests(withIdentifiers: ids)
 	}
 
 	private func makeId(id: String, number: Int) -> String {
@@ -59,6 +59,7 @@ final class NotificationService: NSObject {
 	private func register(id: String, notification: PushNotification, title: String, message: String?) {
 		let content = UNMutableNotificationContent()
 		content.title = title
+		content.sound = .default
 		if let message = message {
 			content.body = message
 		}

@@ -121,14 +121,13 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 				parentTask = parent
 		}
 
+		updateNotification(with: resultTask)
 		taskProvider.save(task: resultTask, parent: parentTask) { [weak self] in
 			self?.listener?.refreshTasks()
 			DispatchQueue.main.async { [weak viewController] in
 				viewController?.dismiss(animated: true, completion: nil)
 			}
 		}
-
-		updateNotification(with: resultTask)
 	}
 
 	func closeTapped(viewController: UIViewController) {

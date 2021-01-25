@@ -38,8 +38,7 @@ final class TaskProgressView: UIView {
 
 	private let plusButton: UIButton = {
 		let button = Button(title: nil, image: UIImage.named("circlePlus"))
-		let inset: CGFloat = 9
-		button.contentEdgeInsets = UIEdgeInsets(inset: inset)
+		button.semanticContentAttribute = .forceLeftToRight
 		return button
 	}()
 
@@ -63,6 +62,15 @@ final class TaskProgressView: UIView {
 
 		plusButton.tintColor = model.color
 		showPlus = model.showPlus
+	}
+
+	func testPointInside(_ point: CGPoint, view: UIView) -> UIView? {
+		let point = view.convert(point, to: plusButton)
+		if !plusButton.isHidden && plusButton.bounds.contains(point) {
+			return plusButton
+		}
+
+		return nil
 	}
 
 	private func setupViews() {
@@ -92,7 +100,7 @@ final class TaskProgressView: UIView {
 			title.trailingAnchor.constraint(equalTo: trailingAnchor),
 			title.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-			plusButton.heightAnchor.constraint(equalToConstant: Sizes.buttonSize),
+			plusButton.heightAnchor.constraint(equalToConstant: Consts.plusSize),
 			plusButton.widthAnchor.constraint(equalToConstant: Sizes.buttonSize),
 			plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Margin.standart),
 			plusButton.centerYAnchor.constraint(equalTo: progressView.centerYAnchor)

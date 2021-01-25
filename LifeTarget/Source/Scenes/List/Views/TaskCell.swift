@@ -97,6 +97,14 @@ final class TaskCell: UITableViewCell {
 
 	required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
+	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+
+		if let result = progressViewQueue.view(at: 0).testPointInside(point, view: self) {
+			return result
+		}
+		return super.hitTest(point, with: event)
+	}
+
 	func update(with task: TaskViewModel) {
 		taskExpositionView.update(with: task)
 
