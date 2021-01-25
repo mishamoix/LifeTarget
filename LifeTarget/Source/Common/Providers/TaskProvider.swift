@@ -12,6 +12,7 @@ protocol TaskProviderProtocol {
 	func save(task: Task, parent: Task?, completion: @escaping () -> Void)
 	func delete(task: Task, completion: @escaping () -> Void)
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void)
+	func fetchFullTreeTasks(with parent: Task, result: @escaping ([Task]) -> Void)
 }
 
 final class TaskProvider {
@@ -68,26 +69,35 @@ extension TaskProvider: TaskProviderProtocol {
 
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void) {
 		readContext.perform { [weak self] in
-
-			let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: true)
-
 			let entries: [TaskDB]?
 
 			if let parent = parent {
 				let predicate = NSPredicate(format: "parent.id = '\(parent.id)'")
-				entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate,
-													sort: sortDescriptor)
+				entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate)
 
 			} else {
 				let predicate = NSPredicate(format: "parent = nil")
-				entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate,
-													sort: sortDescriptor)
+				entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate)
 			}
 			guard let tasksDB = entries else {
 				return result([])
 			}
 
 			let tasks = tasksDB.map({ Task(db: $0) }).sortedTask()
+			return result(tasks)
+		}
+	}
+
+	func fetchFullTreeTasks(with parent: Task, result: @escaping ([Task]) -> Void) {
+		readContext.perform { [weak self] in
+			let predicate = NSPredicate(format: "parent.id = '\(parent.id)'")
+			let entries = self?.readContext.entries(entity: TaskDB.self, predicate: predicate)
+
+			guard let tasksDB = entries else {
+				return result([])
+			}
+
+			let tasks = tasksDB.map({ Task(db: $0, level: .unlimited) })
 			return result(tasks)
 		}
 	}

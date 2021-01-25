@@ -47,7 +47,8 @@ final class TaskListInteractor {
 
 	private func fetchTasks() {
 		taskProvider.fetchTasks(with: parent) { [weak self] tasks in
-			self?.presenter.show(tasks: tasks, parent: self?.parent)
+			guard let self = self else { return }
+			self.presenter.show(tasks: tasks, parent: self.parent, nestedLevel: self.nestedLevel)
 		}
 	}
 }
@@ -107,10 +108,10 @@ extension TaskListInteractor: TaskListInteractionListener {
 
 private extension TaskListInteractor {
 	func initialSetup() {
-		if nestedLevel == 0 {
-			presenter.displayMainTitle()
+		if let parent = parent {
+			presenter.displayTaskName(name: parent.title)
 		} else {
-			presenter.displayNestedLevel(nestedLevel)
+			presenter.displayMainTitle()
 		}
 	}
 }

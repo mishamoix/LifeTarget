@@ -9,9 +9,14 @@ enum TaskListScene {
 	struct ViewModel {
 		let parent: TaskViewModel?
 		let tasks: [TaskViewModel]
+		let nestedLevel: Int
 
 		var hasParent: Bool {
 			return parent != nil
+		}
+
+		var parentSubtitle: String {
+			"nested_level".loc + ": \(nestedLevel)"
 		}
 	}
 

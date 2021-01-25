@@ -26,6 +26,15 @@ final class ParentCell: UITableViewCell {
 		return label
 	}()
 
+	private let subtitle: UILabel = {
+		let label = UILabel()
+		label.textColor = Colors.secondaryLabel
+		label.font = Fonts.caption
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.numberOfLines = 0
+		return label
+	}()
+
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
@@ -35,8 +44,9 @@ final class ParentCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func update(with task: TaskViewModel) {
+	func update(with task: TaskViewModel, subtitle: String) {
 		title.text = task.task.title
+		self.subtitle.text = subtitle
 	}
 
 	private func setupUI() {
@@ -45,7 +55,7 @@ final class ParentCell: UITableViewCell {
 		selectionStyle = .none
 
 		contentView.addSubview(container)
-		container.addSubview(title)
+		container.addSubviews(title, subtitle)
 		NSLayoutConstraint.activate([
 			container.topAnchor.constraint(equalTo: contentView.topAnchor,
 										   constant: Margin.standart),
@@ -59,8 +69,14 @@ final class ParentCell: UITableViewCell {
 			title.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
 			title.trailingAnchor.constraint(equalTo: container.trailingAnchor,
 											constant: Margin.standart).reversed,
-			title.bottomAnchor.constraint(equalTo: container.bottomAnchor,
+
+			subtitle.topAnchor.constraint(equalTo: title.bottomAnchor),
+			subtitle.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: Margin.standart),
+			subtitle.trailingAnchor.constraint(equalTo: container.trailingAnchor,
+											constant: Margin.standart).reversed,
+			subtitle.bottomAnchor.constraint(equalTo: container.bottomAnchor,
 										  constant: Margin.standart).reversed
+
 		])
 	}
 }

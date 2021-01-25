@@ -76,6 +76,11 @@ final class ChangeTaskInteractor {
 			notificationService.update(action: .remove(id: task.id))
 		}
 	}
+
+	private func removeNotification(for task: Task) {
+		notificationService.update(action: .remove(id: task.id))
+		task.subtasks?.forEach({ removeNotification(for: $0) })
+	}
 }
 
 // MARK: - ChangeTaskInteractionLogic
@@ -132,10 +137,17 @@ extension ChangeTaskInteractor: ChangeTaskInteractionLogic {
 
 	func removeTapped(viewController: UIViewController) {
 		if case let Scene.Input.change(resultTask) = task {
-			taskProvider.delete(task: resultTask) { [weak self] in
-				self?.listener?.refreshTasks()
-				DispatchQueue.main.async { [weak viewController] in
-					viewController?.dismiss(animated: true, completion: nil)
+			taskProvider.fetchFullTreeTasks(with: resultTask) { [weak self] tasks in
+
+				var fullTask = resultTask
+				fullTask.subtasks = tasks
+				self?.removeNotification(for: fullTask)
+
+				self?.taskProvider.delete(task: resultTask) { [weak self] in
+					self?.listener?.refreshTasks()
+					DispatchQueue.main.async { [weak viewController] in
+						viewController?.dismiss(animated: true, completion: nil)
+					}
 				}
 			}
 		}

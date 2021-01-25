@@ -99,8 +99,10 @@ final class TaskListViewController: UIViewController {
 	private func parentCell(indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: ParentCell.identifier,
 												 for: indexPath)
-		if let cell = cell as? ParentCell, let task = viewModel?.parent {
-			cell.update(with: task)
+		if let cell = cell as? ParentCell,
+		   let viewModel = viewModel,
+		   let task = viewModel.parent {
+			cell.update(with: task, subtitle: viewModel.parentSubtitle)
 		}
 
 		return cell
@@ -189,7 +191,7 @@ extension TaskListViewController: TaskCellDelegate {
 			let alert = UIAlertController(title: "sure_complete_task_title".loc,
 										  message: "sure_complete_task_subtitle".loc,
 										  preferredStyle: .alert)
-			
+
 			alert.addAction(UIAlertAction(title: "cancel".loc, style: .default))
 			alert.addAction(UIAlertAction(title: "complete_button".loc, style: .cancel,
 										  handler: { [weak self] _ in

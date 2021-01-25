@@ -58,7 +58,46 @@ extension TaskDB: DatabaseModelProtocol {
 }
 
 extension Task {
-	init(db model: TaskDB, level: Int = 0) {
+
+	enum Level {
+		case none
+		case one
+		case unlimited
+		case custom(level: Int)
+
+		var increase: Level {
+			switch self {
+				case .none, .one:
+					return .none
+				case .unlimited:
+					return .unlimited
+				case .custom(let level):
+					let newValue = level - 1
+					return newValue == 1 ? .one : .custom(level: newValue)
+			}
+		}
+
+		var canGetChild: Bool {
+			switch self {
+				case .one, .custom, .unlimited:
+					return true
+				case .none:
+					return false
+			}
+		}
+
+		var canGetParent: Bool {
+			switch self {
+				case .one:
+					return true
+				default:
+					return false
+			}
+		}
+
+	}
+
+	init(db model: TaskDB, level: Level = .one) {
 		var progress: Task.Progress?
 		var duration: Task.Duration?
 		var childs: [Task]?
@@ -73,15 +112,15 @@ extension Task {
 			duration = Task.Duration(start: start.date, end: end.date)
 		}
 
-		if level <= 0, let childsDB = model.childs?.allObjects as? [TaskDB] {
+		if level.canGetChild, let childsDB = model.childs?.allObjects as? [TaskDB] {
 			childs = childsDB
-				.map({ Task(db: $0, level: level + 1) })
+				.map({ Task(db: $0, level: level.increase) })
 				.sortedTask()
 		}
 
-		if level <= 0,
+		if level.canGetParent,
 		   let parentDB = model.parent {
-			parent = Task(db: parentDB, level: level + 1)
+			parent = Task(db: parentDB, level: level.increase)
 		}
 
 		let notification = PushNotification(weekdays: model.notificationWeekdays?.sorted(),
