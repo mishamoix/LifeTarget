@@ -9,6 +9,10 @@ import UIKit
 
 final class MainViewController: UITabBarController {
 
+	override var prefersStatusBarHidden: Bool {
+		false
+	}
+
 	override func viewDidLoad() {
 		UINavigationBar.appearance().shadowImage = UIColor.red.as1ptImage()
 		super.viewDidLoad()

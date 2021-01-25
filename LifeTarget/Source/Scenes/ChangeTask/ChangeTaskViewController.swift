@@ -13,7 +13,7 @@ protocol ChangeTaskDisplayLogic: AnyObject {
 	func show(error: ChangeTaskScene.ErrorModel)
 }
 
-final class ChangeTaskViewController: UIViewController {
+final class ChangeTaskViewController: ViewController {
 
 	typealias Scene = ChangeTaskScene
 

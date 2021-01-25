@@ -26,6 +26,7 @@ final class NotificationPereodicalTime: BaseView {
 		view.showsVerticalScrollIndicator = false
 		view.backgroundColor = Colors.secondaryBackground
 		view.clipsToBounds = false
+		view.alwaysBounceHorizontal = true
 
 		return view
 	}()

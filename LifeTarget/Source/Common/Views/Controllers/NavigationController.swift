@@ -8,6 +8,10 @@
 import UIKit
 
 final class NavigationController: UINavigationController {
+	override var prefersStatusBarHidden: Bool {
+		false
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 

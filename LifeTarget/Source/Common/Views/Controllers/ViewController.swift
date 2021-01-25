@@ -16,6 +16,10 @@ class ViewController: UIViewController, ViewControllerLoadable {
 
 	private let loaderDebouncer = Debouncer(seconds: 0.15)
 
+	override var prefersStatusBarHidden: Bool {
+		false
+	}
+
 	func updateLoader(hidden: Bool) {
 		if hidden {
 			loaderDebouncer.cancel()
