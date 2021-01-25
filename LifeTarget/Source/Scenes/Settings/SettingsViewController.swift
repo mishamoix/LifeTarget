@@ -9,7 +9,9 @@ import UIKit
 
 protocol SettingsDisplayLogic: AnyObject {
 
-	func select(theme: Theme)
+	func update(theme: Theme)
+	func update(notification: SettingsScene.NotificationViewModel)
+	func update(build: String)
 }
 
 final class SettingsViewController: UIViewController {
@@ -38,6 +40,17 @@ final class SettingsViewController: UIViewController {
 	}()
 
 	private let appAppearanceView = AppAppearanceView()
+	private let notificationPermissionView = NotificationPermissionView()
+	private let actionView = SettingsActionView()
+
+	private let buildLabel: UILabel = {
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.font = Fonts.caption
+		view.textColor = Colors.secondaryLabel
+		view.textAlignment = .left
+		return view
+	}()
 
 	init(interactor: SettingsInteractionLogic) {
 		self.interactor = interactor
@@ -59,10 +72,16 @@ final class SettingsViewController: UIViewController {
 		scrollView.addSubview(container)
 
 		appAppearanceView.delegate = self
+		notificationPermissionView.delegate = self
+		actionView.delegate = self
 
 		if #available(iOS 13.0, *) {
 			container.addArrangedSubview(appAppearanceView)
 		}
+
+		container.addArrangedSubview(notificationPermissionView)
+		container.addArrangedSubview(actionView)
+		container.addArrangedSubview(buildLabel)
 
 		setupConstraints()
 	}
@@ -87,14 +106,49 @@ final class SettingsViewController: UIViewController {
 // MARK: - SettingsDisplayLogic
 extension SettingsViewController: SettingsDisplayLogic {
 
-	func select(theme: Theme) {
+	func update(theme: Theme) {
 		appAppearanceView.select(theme: theme)
 	}
 
+	func update(notification: SettingsScene.NotificationViewModel) {
+		notificationPermissionView.update(with: notification)
+	}
+
+	func update(build: String) {
+		buildLabel.text = build
+	}
 }
 
 extension SettingsViewController: AppAppearanceViewDelegate {
 	func didSelectTheme(_ theme: Theme) {
 		interactor.didSelectTheme(theme)
+	}
+}
+
+extension SettingsViewController: NotificationPermissionViewDelegate {
+	func notificationButtonTapped() {
+		interactor.notificationDidTapped()
+	}
+}
+
+extension SettingsViewController: SettingsActionViewDelegate {
+	func addTestTaskTapped() {
+		let alert = UIAlertController(title: "test_task_title".loc,
+									  message: "test_task_message".loc,
+									  preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "add".loc, style: .cancel, handler: { [weak self] _ in
+			self?.interactor.addTestTaskTapped()
+		}))
+
+		alert.addAction(UIAlertAction(title: "cancel".loc, style: .default))
+		present(alert, animated: true)
+	}
+
+	func showTutorialTapped() {
+		interactor.showTutorialTapped()
+	}
+
+	func writeToDevelopersTapped() {
+		interactor.writeToDevelopersTapped()
 	}
 }

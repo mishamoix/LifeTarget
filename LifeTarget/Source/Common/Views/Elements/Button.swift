@@ -7,11 +7,21 @@
 
 import UIKit
 
-final class Button: UIButton {
+class Button: UIButton {
 
 	var minimumHeight: CGFloat?
 
-	init(title: String?, image: UIImage?) {
+	var title: String? {
+		get {
+			return titleLabel?.text
+		}
+
+		set {
+			setTitle(newValue, for: .normal)
+		}
+	}
+
+	init(title: String? = nil, image: UIImage? = nil) {
 		super.init(frame: .zero)
 		translatesAutoresizingMaskIntoConstraints = false
 

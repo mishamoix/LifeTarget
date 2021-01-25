@@ -25,6 +25,8 @@ final class NotificationService: NSObject {
 	}
 
 	static let shared = NotificationService()
+
+	static var permission: Permission = NotificationPermission()
 	private let notificationService = UNUserNotificationCenter.current()
 
 	private override init() {
@@ -51,8 +53,8 @@ final class NotificationService: NSObject {
 	}
 
 	private func requestAccess(result: @escaping (Bool) -> Void) {
-		notificationService.requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
-			result(granted)
+		Self.permission.requestAccess { authorized in
+			result(authorized != .restricted)
 		}
 	}
 

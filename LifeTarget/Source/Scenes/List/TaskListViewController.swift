@@ -20,17 +20,7 @@ final class TaskListViewController: ViewController {
 	private let interactor: TaskListInteractionLogic
 	private let tableView = UITableView(frame: .null, style: .plain)
 
-	private let addFirstTaskButton: UIButton = {
-		let view = Button(title: "add_first_task".loc, image: nil)
-		view.contentEdgeInsets = UIEdgeInsets(horizontal: Margin.standart)
-		view.minimumHeight = Sizes.flattenButtonHeight
-		view.setTitleColor(Colors.label, for: .normal)
-		view.backgroundColor = Colors.lightBackground
-		view.titleLabel?.font = Fonts.button
-		view.layer.cornerRadius = Sizes.smallCornerRadius
-		view.addShadow()
-		return view
-	}()
+	private let addFirstTaskButton: UIButton = ActionButton(title: "add_first_task".loc)
 
 	private var viewModel: Scene.ViewModel?
 

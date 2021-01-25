@@ -80,3 +80,20 @@
 "appearance_system" = "System";
 
 "settings" = "Settings";
+
+"notification_status" = "Notifications";
+"notification_status_on" = "On";
+"notification_status_off" = "Off";
+"notification_status_none" = "Not requested";
+"notification_enable" = "Enable";
+"go_to_settings" = "Settings";
+
+"test_task" = "Example task";
+"tutorial" = "Tutorial";
+"write_to_developers" = "Text us";
+
+"test_task_title" = "Add example task?";
+"test_task_message" = "Example task will be added at end of you list";
+"add" = "Add";
+
+"build_version" = "Version";

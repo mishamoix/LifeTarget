@@ -12,8 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
-	private lazy var mainFlow = MainFlow(themeService: themeService)
-	private lazy var themeService = ThemeService(window: window)
+	private lazy var assemble = Assemble(window: window)
 
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -22,12 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			window = UIWindow()
 		}
 
-		window?.rootViewController = mainFlow.mainViewController
-		window?.makeKeyAndVisible()
-		window?.layer.cornerRadius = 2.0
-		window?.clipsToBounds = true
+		assemble.start()
 
-		mainFlow.startFlow()
 		return true
 	}
 }

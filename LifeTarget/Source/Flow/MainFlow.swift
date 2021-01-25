@@ -15,10 +15,12 @@ final class MainFlow {
 	private(set) lazy var mainViewController = MainViewController()
 	private lazy var tasksFlow = TasksFlow(base: mainViewController)
 
+	private let notificationPermission: Permission
 	private let themeService: ThemeServiceProtocol
 
-	init(themeService: ThemeServiceProtocol) {
+	init(themeService: ThemeServiceProtocol, notificationPermission: Permission) {
 		self.themeService = themeService
+		self.notificationPermission = notificationPermission
 	}
 
 	func startFlow() {
@@ -33,7 +35,8 @@ final class MainFlow {
 	private func buildSettings() -> UIViewController {
 		let presenter = SettingsPresenter()
 		let interactor = SettingsInteractor(router: self, presenter: presenter,
-											themeService: themeService)
+											themeService: themeService,
+											notificationPermission: notificationPermission)
 		let view = SettingsViewController(interactor: interactor)
 		presenter.view = view
 

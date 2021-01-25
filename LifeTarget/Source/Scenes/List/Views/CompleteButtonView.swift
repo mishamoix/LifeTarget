@@ -11,16 +11,7 @@ final class CompleteButtonView: UIView {
 
 	var tapped: (() -> Void)?
 
-	private let button: UIButton = {
-		let view = Button(title: "complete_button".loc, image: nil)
-		view.contentEdgeInsets = UIEdgeInsets(horizontal: Margin.standart)
-		view.minimumHeight = Sizes.flattenButtonHeight
-		view.setTitleColor(Colors.label, for: .normal)
-		view.backgroundColor = Colors.lightBackground
-		view.layer.cornerRadius = Sizes.smallCornerRadius
-		view.addShadow()
-		return view
-	}()
+	private let button: UIButton = ActionButton(title: "complete_button".loc)
 
 	convenience init() {
 		self.init(frame: .zero)
