@@ -8,6 +8,7 @@
 protocol SettingsInteractionLogic {
 
 	func start()
+	func didSelectTheme(_ theme: Theme)
 }
 
 final class SettingsInteractor {
@@ -16,16 +17,25 @@ final class SettingsInteractor {
 
 	private let router: MainFlowLogic
 	private let presenter: SettingsPresentationLogic
+	private let themeService: ThemeServiceProtocol
 
 	init(router: MainFlowLogic,
-		 presenter: SettingsPresentationLogic) {
+		 presenter: SettingsPresentationLogic,
+		 themeService: ThemeServiceProtocol) {
 		self.router = router
 		self.presenter = presenter
+		self.themeService = themeService
 	}
 }
 
 // MARK: - SettingsInteractionLogic
 extension SettingsInteractor: SettingsInteractionLogic {
 
-	func start() {}
+	func start() {
+		presenter.select(theme: themeService.theme)
+	}
+
+	func didSelectTheme(_ theme: Theme) {
+		themeService.theme = theme
+	}
 }

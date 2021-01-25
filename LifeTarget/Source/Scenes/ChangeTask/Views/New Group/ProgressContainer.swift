@@ -74,7 +74,6 @@ final class ProgressContainer: UIView {
 		currentField.isHidden = true
 
 		setupConstraints()
-		addShadow()
 	}
 
 	private func setupConstraints() {

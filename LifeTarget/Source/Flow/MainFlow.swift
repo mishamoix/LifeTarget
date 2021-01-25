@@ -15,6 +15,12 @@ final class MainFlow {
 	private(set) lazy var mainViewController = MainViewController()
 	private lazy var tasksFlow = TasksFlow(base: mainViewController)
 
+	private let themeService: ThemeServiceProtocol
+
+	init(themeService: ThemeServiceProtocol) {
+		self.themeService = themeService
+	}
+
 	func startFlow() {
 		tasksFlow.start()
 		mainViewController.add(viewController: buildNavigation(with: buildSettings()))
@@ -26,8 +32,10 @@ final class MainFlow {
 
 	private func buildSettings() -> UIViewController {
 		let presenter = SettingsPresenter()
-		let interactor = SettingsInteractor(router: self, presenter: presenter)
+		let interactor = SettingsInteractor(router: self, presenter: presenter,
+											themeService: themeService)
 		let view = SettingsViewController(interactor: interactor)
+		presenter.view = view
 
 		view.tabBarItem = UITabBarItem(title: "settings".loc, image: UIImage(named: "settings"), tag: 1)
 

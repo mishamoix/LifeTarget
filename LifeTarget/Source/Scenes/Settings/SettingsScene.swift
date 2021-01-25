@@ -6,16 +6,4 @@
 //
 
 enum SettingsScene {
-
-	struct Input {}
-
-	struct Output {}
-
-	struct Model {}
-
-	struct Request {}
-
-	struct Response {}
-
-	struct ViewModel {}
 }

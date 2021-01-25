@@ -41,7 +41,6 @@ final class TaskCell: UITableViewCell {
 		view.backgroundColor = Colors.secondaryBackground
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.layer.cornerRadius = Sizes.cornerRadius
-		view.addShadow()
 		return view
 	}()
 

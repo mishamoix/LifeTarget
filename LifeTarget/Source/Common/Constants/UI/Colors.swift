@@ -24,6 +24,10 @@ enum Colors {
 		}
 	}
 
+	static var lightBackground: UIColor {
+		UIColor(named: "lightBackground") ?? background
+	}
+
 	static var label: UIColor {
 		if #available(iOS 13.0, *) {
 			return UIColor.label

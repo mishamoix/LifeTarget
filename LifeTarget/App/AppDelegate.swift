@@ -12,7 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
-	private let mainFlow = MainFlow()
+	private lazy var mainFlow = MainFlow(themeService: themeService)
+	private lazy var themeService = ThemeService(window: window)
 
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

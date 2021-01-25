@@ -59,7 +59,6 @@ final class ChangeTaskTextMainContainer: UIView {
 		layer.cornerRadius = Sizes.cornerRadius
 		translatesAutoresizingMaskIntoConstraints = false
 		addSubviews(titleTextView, separator, expositionTextView)
-		addShadow()
 
 		NSLayoutConstraint.activate([
 			titleTextView.topAnchor.constraint(equalTo: topAnchor, constant: Margin.small),

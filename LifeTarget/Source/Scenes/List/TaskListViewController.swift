@@ -24,10 +24,11 @@ final class TaskListViewController: ViewController {
 		let view = Button(title: "add_first_task".loc, image: nil)
 		let inset = Margin.standart
 		view.contentEdgeInsets = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
-		view.layer.borderWidth = 2
-		view.layer.borderColor = Colors.accent.cgColor
 		view.minimumHeight = 36
-		view.layer.cornerRadius = 18
+		view.setTitleColor(Colors.label, for: .normal)
+		view.backgroundColor = Colors.lightBackground
+		view.layer.cornerRadius = Sizes.cornerRadius
+		view.addShadow()
 		return view
 	}()
 

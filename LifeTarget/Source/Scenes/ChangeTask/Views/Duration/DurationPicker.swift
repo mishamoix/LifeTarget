@@ -102,7 +102,6 @@ final class DurationPicker: UIView {
 		getsuresSetup()
 		constrainsSetup()
 		refreshDates()
-		addShadow()
 	}
 
 	private func constrainsSetup() {

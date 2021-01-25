@@ -33,13 +33,11 @@ final class ProgressField: UIView {
 		view.autocorrectionType = .no
 		view.keyboardType = .numberPad
 		view.backgroundColor = Colors.background
-//		view.clipsToBounds = true
 		view.layer.cornerRadius = 5
 		view.placeholder = "progress_placeholder".loc
 		view.textAlignment = .center
 		view.font = Fonts.title
 		view.tintColor = Colors.accent
-		view.addShadow()
 		return view
 	}()
 

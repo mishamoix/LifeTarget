@@ -5,7 +5,9 @@
 //  Created by Mikhail Malyshev on 12.01.2021.
 //
 
-protocol SettingsPresentationLogic {}
+protocol SettingsPresentationLogic {
+	func select(theme: Theme)
+}
 
 final class SettingsPresenter {
 
@@ -14,4 +16,8 @@ final class SettingsPresenter {
 	weak var view: SettingsDisplayLogic?
 }
 
-extension SettingsPresenter: SettingsPresentationLogic {}
+extension SettingsPresenter: SettingsPresentationLogic {
+	func select(theme: Theme) {
+		view?.select(theme: theme)
+	}
+}

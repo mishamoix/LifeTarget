@@ -73,3 +73,10 @@
 
 "notification" = "Notification";
 "every" = "every";
+
+"choose_appearance" = "Choose app style";
+"appearance_light" = "Light";
+"appearance_dark" = "Dark";
+"appearance_system" = "System";
+
+"settings" = "Settings";
