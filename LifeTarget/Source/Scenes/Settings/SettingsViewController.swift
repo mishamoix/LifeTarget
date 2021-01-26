@@ -14,7 +14,7 @@ protocol SettingsDisplayLogic: AnyObject {
 	func update(build: String)
 }
 
-final class SettingsViewController: UIViewController {
+final class SettingsViewController: ViewController {
 
 	typealias Scene = SettingsScene
 
@@ -137,7 +137,8 @@ extension SettingsViewController: SettingsActionViewDelegate {
 									  message: "test_task_message".loc,
 									  preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "add".loc, style: .cancel, handler: { [weak self] _ in
-			self?.interactor.addTestTaskTapped()
+			guard let self = self else { return }
+			self.interactor.addTestTaskTapped(viewController: self)
 		}))
 
 		alert.addAction(UIAlertAction(title: "cancel".loc, style: .default))

@@ -97,3 +97,36 @@
 "add" = "Add";
 
 "build_version" = "Version";
+
+
+"example_task_title" = "Learn X language";
+"example_task_exposition" = "This is main target (your global task) it'll take a long time (for example a 1 year).";
+
+"example_task_reading" = "Reading";
+"example_task_reading_exposition" = "This is middle target and accumulate atomic tasks which you will execute every day/week/month.";
+"example_task_reading_book" = "Read X book";
+"example_task_reading_book_exposition" = "Read 186 pages of book";
+"example_task_reading_article" = "Read articles";
+"example_task_reading_article_exposition" = "Read 10 articles (you can set notification for periodically reading)";
+
+"example_task_writing" = "Writing";
+"example_task_writing_exposition" = "Use some apps or/and websites";
+"example_task_writing_people" = "Find 2 peoples";
+"example_task_writing_people_exposition" = "Find peoples on facebook which help you in texting";
+"example_task_writing_blog" = "Write 3 articles";
+"example_task_writing_blog_exposition" = "Start a blog and write 3 articles";
+
+"example_task_speaking" = "Speaking";
+"example_task_speaking_discord" = "Make 7 sessions of speaking at least 30 min.";
+"example_task_speaking_discord_exposition" = "Find international community in discord";
+
+"example_task_listening" = "Listening";
+"example_task_listening_podcast" = "Listen 8 episodes from X podcast";
+"example_task_listening_youtube" = "Find channel on youtube and watch 20 videos";
+"example_task_grammar" = "Grammar";
+
+"example_task_word" = "Words";
+"example_task_word_exposition" = "We need to learn 2000 words. Use X app to do this (for example you can set notification for every Mon, Fri at 8:00 p.m.)";
+
+"example_task_added" = "Example task added";
+"example_task_added_message" = "Switch to targets list and it will appear on end of list";

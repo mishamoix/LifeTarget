@@ -13,6 +13,7 @@ protocol TaskProviderProtocol {
 	func delete(task: Task, completion: @escaping () -> Void)
 	func fetchTasks(with parent: Task?, result: @escaping ([Task]) -> Void)
 	func fetchFullTreeTasks(with parent: Task, result: @escaping ([Task]) -> Void)
+	func saveFullTreeTask(task: Task, result: @escaping () -> Void)
 }
 
 final class TaskProvider {
@@ -37,6 +38,15 @@ final class TaskProvider {
 
 	init(db: DatabaseCoordinatorProtocol) {
 		self.db = db
+	}
+
+	private func save(tasks: [Task], parent: TaskDB, context: NSManagedObjectContext) {
+		for task in tasks {
+			let taskDB = TaskDB.createOrUpdate(input: task, context: context) { upd in
+				upd.parent = parent
+			}
+			save(tasks: task.subtasks ?? [], parent: taskDB, context: context)
+		}
 	}
 }
 
@@ -99,6 +109,19 @@ extension TaskProvider: TaskProviderProtocol {
 
 			let tasks = tasksDB.map({ Task(db: $0, level: .unlimited) })
 			return result(tasks)
+		}
+	}
+
+	func saveFullTreeTask(task: Task, result: @escaping () -> Void) {
+		writeContext.perform { [weak self] in
+			guard let self = self else { return }
+
+			let taskDB = TaskDB.createOrUpdate(input: task, context: self.writeContext)
+			self.save(tasks: task.subtasks ?? [], parent: taskDB, context: self.writeContext)
+
+			try? self.writeContext.save()
+
+			result()
 		}
 	}
 }

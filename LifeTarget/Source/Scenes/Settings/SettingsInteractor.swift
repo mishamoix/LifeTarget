@@ -14,7 +14,7 @@ protocol SettingsInteractionLogic {
 	func didSelectTheme(_ theme: Theme)
 	func notificationDidTapped()
 
-	func addTestTaskTapped()
+	func addTestTaskTapped(viewController: ViewController)
 	func showTutorialTapped()
 	func writeToDevelopersTapped()
 }
@@ -27,13 +27,16 @@ final class SettingsInteractor {
 	private let presenter: SettingsPresentationLogic
 	private let themeService: ThemeServiceProtocol
 	private let notificationPermission: Permission
+	private let taskProvider: ExampleTaskProviderProtocol
 
 	init(router: MainFlowLogic, presenter: SettingsPresentationLogic,
-		 themeService: ThemeServiceProtocol, notificationPermission: Permission) {
+		 themeService: ThemeServiceProtocol, notificationPermission: Permission,
+		 taskProvider: ExampleTaskProviderProtocol) {
 		self.router = router
 		self.presenter = presenter
 		self.themeService = themeService
 		self.notificationPermission = notificationPermission
+		self.taskProvider = taskProvider
 	}
 
 	private func updateAllData() {
@@ -57,6 +60,16 @@ final class SettingsInteractor {
 			presenter.update(build: "\(version) Beta")
 		} else {
 			presenter.update(build: version)
+		}
+	}
+
+	private func showExampleTaskAdded(on viewController: ViewController) {
+		let alert = UIAlertController(title: "example_task_added".loc,
+									  message: "example_task_added_message".loc, preferredStyle: .alert)
+		viewController.present(alert, animated: true)
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+			alert.dismiss(animated: true, completion: nil)
 		}
 	}
 }
@@ -89,13 +102,19 @@ extension SettingsInteractor: SettingsInteractionLogic {
 		}
 	}
 
-	func addTestTaskTapped() {
-
+	func addTestTaskTapped(viewController: ViewController) {
+		viewController.updateLoader(hidden: false)
+		taskProvider.generateAndSave { [weak self, weak viewController] in
+			guard let viewController = viewController else { return }
+			DispatchQueue.mainAsyncIfNeeded {
+				viewController.updateLoader(hidden: true)
+				self?.showExampleTaskAdded(on: viewController)
+				self?.router.refreshTaskList()
+			}
+		}
 	}
 
-	func showTutorialTapped() {
-
-	}
+	func showTutorialTapped() { }
 
 	func writeToDevelopersTapped() {
 		guard let url = URL(string: "mailto:\(DeveloperEmail)"),

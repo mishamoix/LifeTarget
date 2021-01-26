@@ -8,15 +8,18 @@
 import UIKit
 
 protocol MainFlowLogic {
+	func refreshTaskList()
 }
 
 final class MainFlow {
 
 	private(set) lazy var mainViewController = MainViewController()
-	private lazy var tasksFlow = TasksFlow(base: mainViewController)
+	private lazy var tasksFlow = TasksFlow(base: mainViewController, db: database)
 
 	private let notificationPermission: Permission
 	private let themeService: ThemeServiceProtocol
+
+	private let database = DatabaseCoordinator(name: "Models")
 
 	init(themeService: ThemeServiceProtocol, notificationPermission: Permission) {
 		self.themeService = themeService
@@ -36,7 +39,8 @@ final class MainFlow {
 		let presenter = SettingsPresenter()
 		let interactor = SettingsInteractor(router: self, presenter: presenter,
 											themeService: themeService,
-											notificationPermission: notificationPermission)
+											notificationPermission: notificationPermission,
+											taskProvider: ExampleTaskProvider(taskProvider: TaskProvider(db: database)))
 		let view = SettingsViewController(interactor: interactor)
 		presenter.view = view
 
@@ -46,4 +50,8 @@ final class MainFlow {
 	}
 }
 
-extension MainFlow: MainFlowLogic { }
+extension MainFlow: MainFlowLogic {
+	func refreshTaskList() {
+		tasksFlow.refreshTaskList()
+	}
+}

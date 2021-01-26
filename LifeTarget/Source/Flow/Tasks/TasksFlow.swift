@@ -16,17 +16,24 @@ final class TasksFlow {
 
 	private let baseViewController: MainViewController
 	private let baseNavigationViewController = NavigationController()
-	private lazy var taskProvider = TaskProvider(db: DatabaseCoordinator(name: "Models"))
+	private let taskProvider: TaskProviderProtocol
 	private let notifications = NotificationService.shared
 
-	init(base viewController: MainViewController) {
+	private weak var rootListInteractor: TaskListInteractor?
+
+	init(base viewController: MainViewController, db: DatabaseCoordinatorProtocol) {
 		self.baseViewController = viewController
+		self.taskProvider = TaskProvider(db: db)
 	}
 
 	func start() {
 		let taskList = buildTaskList(input: TaskListScene.Input())
 		baseNavigationViewController.setViewControllers([taskList], animated: false)
 		baseViewController.add(viewController: baseNavigationViewController)
+	}
+
+	func refreshTaskList() {
+		rootListInteractor?.refreshTasks()
 	}
 
 	private func buildTaskList(input: TaskListScene.Input) -> UIViewController {
@@ -38,6 +45,7 @@ final class TasksFlow {
 
 		presenter.view = view
 
+		rootListInteractor = interactor
 		view.tabBarItem = UITabBarItem(title: "task_list".loc,
 									   image: UIImage(named: "taskList"),
 									   tag: 0)
