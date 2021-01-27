@@ -78,8 +78,8 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (= 5.2)
-  - Firebase/Analytics
-  - Firebase/Crashlytics
+  - Firebase/Analytics (= 7.4.0)
+  - Firebase/Crashlytics (= 7.4.0)
   - InputMask (= 6.0.0)
   - MBProgressHUD (= 1.2.0)
   - SwiftLint (= 0.39.2)
@@ -119,6 +119,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: f2d5d480c317fe1cacdbd33e0cfafec83600aa14
+PODFILE CHECKSUM: 0afc798327dae85c8834dcbf1fb49a8036c470fe
 
 COCOAPODS: 1.10.1

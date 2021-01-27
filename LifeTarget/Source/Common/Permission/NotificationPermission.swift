@@ -81,6 +81,7 @@ extension NotificationPermission: Permission {
 			completion(self.cachedStatus)
 
 			self.refreshStatus()
+			self.notifyListeners()
 		}
 	}
 
