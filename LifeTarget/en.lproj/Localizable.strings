@@ -15,7 +15,7 @@
 "new_task" = "New task";
 "save" = "Save";
 "cancel" = "Cancel";
-"change_task" = "Modify";
+"change_task" = "Editing";
 "close" = "Close";
 
 "title_placeholder" = "Task title";
@@ -26,12 +26,12 @@
 "finish_date" = "Deadline";
 "done" = "Done";
 "delete_date" = "Remove dates";
-"you_want_delete_date" = "Do you really want to remove dates?";
-"delete" = "Delete";
+"you_want_delete_date" = "Are you really want to remove dates?";
+"delete" = "Remove";
 
 "current_activities" = "Current activities";
 "max_count_activities_title" = "Max activities";
-"progress_exposition" = "Max activities is a number which represent count of activities. Example: I want read 400 pages of book. I got activity for each page and result is 400.";
+"progress_exposition" = "Max activities is a number which represent count of repeating to complete task. Example: I want read 400 pages of book. I got activity for each page and result is 400.";
 "progress_placeholder" = "400";
 
 "duration_start_nil" = "Start time is empty";
@@ -40,14 +40,14 @@
 "too_much_progress" = "Current max progress number is too big";
 "current_progress_greater_max" = "Current progress greater than max progress";
 "empty_title" = "Task title is empty";
-"validation_error_title" = "Some errors of validation";
+"validation_error_title" = "Validation error";
 
 "activities_progress" = "Activities";
 "duration_will_start" = "Duration will start at";
 "days_progress" = "Days";
 
 "remove_task_title" = "Delete task";
-"remove_task_subtitle" = "Do you really want to remove this task? You will not able to restore task";
+"remove_task_subtitle" = "Are you really want to remove this task? You will not able to restore task";
 
 "subtasks" = "Subtasks";
 "complete_button" = "Complete";
@@ -57,17 +57,17 @@
 
 "add_first_task" = "Add task";
 
-"sure_complete_task_title" = "Task completion";
+"sure_complete_task_title" = "Complete the task";
 "sure_complete_task_subtitle" = "Are you sure you want to complete the task?";
 
-"is_completed" = "Is completed";
+"is_completed" = "Completed";
 "or" = "or";
 
 "select_date_time" = "Select date and time";
 "select_time" = "Select time";
 
 "notification_title" = "Notifications";
-"notification_exposition" = "Choose exact date and time in order to get notification or choose weekdays and time for periodic notifications.";
+"notification_exposition" = "Choose exact date and time to get 1 notification or choose weekdays and time for regular notifications.";
 
 "lets_start_work_notification" = "Time to work";
 "task" = "Task";
@@ -94,47 +94,47 @@
 "write_to_developers" = "Text us";
 
 "test_task_title" = "Add example target?";
-"test_task_message" = "Example taget will be added at end of you list";
+"test_task_message" = "Example target will be added at the end of your list";
 "add" = "Add";
 
 "build_version" = "Version";
 
 
 "example_task_title" = "Learn X language";
-"example_task_exposition" = "This is main target it'll take a long time (for example a 1 year).";
+"example_task_exposition" = "This is main target. It can take a long time (for example a 1 year).";
 
 "example_task_reading" = "Reading";
-"example_task_reading_exposition" = "This is middle target which accumulate atomic tasks. Execute this every day/week/month.";
-"example_task_reading_book" = "Read X book";
+"example_task_reading_exposition" = "This is the middle task which contains atomic tasks. Execute them every day/week/month.";
+"example_task_reading_book" = "Read book X";
 "example_task_reading_book_exposition" = "Read 186 pages of book";
 "example_task_reading_article" = "Read articles";
-"example_task_reading_article_exposition" = "Read 10 articles (you can set notification for periodically reading)";
+"example_task_reading_article_exposition" = "Read 10 articles (you can set notification for regular reading)";
 
 "example_task_writing" = "Writing";
-"example_task_writing_exposition" = "Use some apps or/and websites";
-"example_task_writing_people" = "Find 2 peoples";
-"example_task_writing_people_exposition" = "Find peoples on facebook which help you in texting";
+"example_task_writing_exposition" = "Find apps for learn writing";
+"example_task_writing_people" = "Find 2 people";
+"example_task_writing_people_exposition" = "Find people on Facebook who'll help you in texting";
 "example_task_writing_blog" = "Write 3 articles";
 "example_task_writing_blog_exposition" = "Start a blog and write 3 articles";
 
 "example_task_speaking" = "Speaking";
-"example_task_speaking_discord" = "Make 7 sessions of speaking at least 30 min.";
-"example_task_speaking_discord_exposition" = "Find international community in discord";
+"example_task_speaking_discord" = "Perform 7 speaking sessions of 30 minutes each";
+"example_task_speaking_discord_exposition" = "Find international community in Discord";
 
 "example_task_listening" = "Listening";
-"example_task_listening_podcast" = "Listen 8 episodes from X podcast";
-"example_task_listening_youtube" = "Find channel on youtube and watch 20 videos";
+"example_task_listening_podcast" = "Listen 8 episodes from podcast X";
+"example_task_listening_youtube" = "Find Youtube channel and watch 20 videos";
 "example_task_grammar" = "Grammar";
 
 "example_task_word" = "Words";
-"example_task_word_exposition" = "We need to learn 2000 words. Use X app to do this (for example you can set notification for every Mon and Fri at 8:00 p.m.)";
+"example_task_word_exposition" = "We need to learn 2000 words. Use app X to do this (for example you can set notification for every Mon and Fri at 8:00 p.m.)";
 
-"example_task_added" = "Example task added";
-"example_task_added_message" = "Switch to targets list and it will appear on end of list";
+"example_task_added" = "Example target added";
+"example_task_added_message" = "Switch to target's list and it'll appear at the bottom";
 
 
-"tutorial_separate" = "Be smart 🤓. Find out your target and separate it to tasks. Tasks distribute to small subtasks which you can execute every day";
+"tutorial_separate" = "Be smart 🤓. Define your target, separate it to the tasks. Divide these tasks into smaller tasks. Carry out them every day/week/month";
 
 "tutorial_add" = "Add new subtask or target by ➕ button";
-"tutorial_notification" = "💌 Setup one-time or periodically notifications";
+"tutorial_notification" = "💌 Setup one-time or regular notifications";
 "tutorial_theme" = "🌇 Change theme";
