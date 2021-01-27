@@ -9,9 +9,13 @@ import UIKit
 
 protocol MainFlowLogic {
 	func refreshTaskList()
+	func showTutorial(animated: Bool)
 }
 
 final class MainFlow {
+
+	@Storage(key: "toturialShowed", defaultValue: false)
+	private var toturialShowed: Bool
 
 	private(set) lazy var mainViewController = MainViewController()
 	private lazy var tasksFlow = TasksFlow(base: mainViewController, db: database)
@@ -29,6 +33,11 @@ final class MainFlow {
 	func startFlow() {
 		tasksFlow.start()
 		mainViewController.add(viewController: buildNavigation(with: buildSettings()))
+
+		if !toturialShowed {
+			toturialShowed = true
+			showTutorial(animated: false)
+		}
 	}
 
 	private func buildNavigation(with root: UIViewController) -> UINavigationController {
@@ -48,10 +57,25 @@ final class MainFlow {
 
 		return view
 	}
+
+	private func buildTutorial() -> UIViewController {
+		let models: [Tutorial] = [
+			Tutorial(image: UIImage.named("subtasks"), text: "tutorial_separate".loc),
+			Tutorial(image: UIImage.named("addNewTask"), text: "tutorial_add".loc),
+			Tutorial(image: UIImage.named("notify"), text: "tutorial_notification".loc),
+			Tutorial(image: UIImage.named("theme"), text: "tutorial_theme".loc)
+		]
+
+		return TutorialViewController(models: models)
+	}
 }
 
 extension MainFlow: MainFlowLogic {
 	func refreshTaskList() {
 		tasksFlow.refreshTaskList()
+	}
+
+	func showTutorial(animated: Bool) {
+		mainViewController.present(buildTutorial(), animated: animated)
 	}
 }

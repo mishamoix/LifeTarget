@@ -10,7 +10,7 @@ import UIKit
 protocol TaskCellDelegate: AnyObject {
 	func editTapped(cell: TaskCell)
 	func subtasksOpenTapped(cell: TaskCell)
-	func plusTapped(cell: TaskCell)
+    func plusTapped(cell: TaskCell, view: UIView)
 	func completeTapped(cell: TaskCell)
 }
 
@@ -36,7 +36,7 @@ final class TaskCell: UITableViewCell {
 		return label
 	}()
 
-	private let container: UIView = {
+	let container: UIView = {
 		let view = UIView()
 		view.backgroundColor = Colors.secondaryBackground
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -206,9 +206,9 @@ final class TaskCell: UITableViewCell {
 	private func addPlusCounterHandler() {
 		let view = progressViewQueue.view(at: 0)
 
-		view.plusHandler = { [weak self] in
+		view.plusHandler = { [weak self] view in
 			guard let self = self else { return }
-			self.delegate?.plusTapped(cell: self)
+			self.delegate?.plusTapped(cell: self, view: view)
 		}
 	}
 

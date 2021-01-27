@@ -16,6 +16,7 @@
 "save" = "Save";
 "cancel" = "Cancel";
 "change_task" = "Modify";
+"close" = "Close";
 
 "title_placeholder" = "Task title";
 "exposition_placeholder" = "Task description";
@@ -130,3 +131,10 @@
 
 "example_task_added" = "Example task added";
 "example_task_added_message" = "Switch to targets list and it will appear on end of list";
+
+
+"tutorial_separate" = "Be smart 🤓. Find out your target and separate it to tasks. Tasks distribute to small subtasks which you can execute every day";
+
+"tutorial_add" = "Add new subtask or target by ➕ button";
+"tutorial_notification" = "💌 Setup one-time or periodically notifications";
+"tutorial_theme" = "🌇 Change theme";

@@ -168,10 +168,12 @@ extension TaskListViewController: TaskCellDelegate {
 		}
 	}
 
-	func plusTapped(cell: TaskCell) {
+	func plusTapped(cell: TaskCell, view: UIView) {
 		if let index = tableView.indexPath(for: cell)?.row,
 		   let task = viewModel?.tasks[realIndex(from: index)].task {
 			interactor.plusTapped(task: task)
+
+			RippleAnimationHelper(with: view, parent: cell.container).animate()
 		}
 	}
 
@@ -186,8 +188,8 @@ extension TaskListViewController: TaskCellDelegate {
 			alert.addAction(UIAlertAction(title: "cancel".loc, style: .default))
 			alert.addAction(UIAlertAction(title: "complete_button".loc, style: .cancel,
 										  handler: { [weak self] _ in
-				self?.interactor.completeTapped(task: task)
-			}))
+											self?.interactor.completeTapped(task: task)
+										  }))
 
 			present(alert, animated: true, completion: nil)
 		}

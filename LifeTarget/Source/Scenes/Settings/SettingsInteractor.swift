@@ -114,7 +114,9 @@ extension SettingsInteractor: SettingsInteractionLogic {
 		}
 	}
 
-	func showTutorialTapped() { }
+	func showTutorialTapped() {
+		router.showTutorial(animated: true)
+	}
 
 	func writeToDevelopersTapped() {
 		guard let url = URL(string: "mailto:\(DeveloperEmail)"),

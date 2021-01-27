@@ -46,8 +46,9 @@ extension ExampleTaskProvider: ExampleTaskProviderProtocol {
 
 private extension ExampleTaskProvider {
 	var head: Task {
-		let start = Date()
-		let end = Calendar.current.date(byAdding: DateComponents(year: 1), to: start) ?? Date()
+		let base = Date()
+		let start = Calendar.current.date(byAdding: DateComponents(month: -6), to: base) ?? base
+		let end = Calendar.current.date(byAdding: DateComponents(year: 1), to: base) ?? base
 
 		let duration = Task.Duration(start: start, end: end)
 		let task = Task(id: Consts.id, title: "example_task_title".loc,
@@ -150,13 +151,12 @@ private extension ExampleTaskProvider {
 	}
 
 	var listeningYoutube: Task {
-		let task = Task(title: "example_task_listening_youtibe".loc,
+		let task = Task(title: "example_task_listening_youtube".loc,
 						exposition: nil, progress: Task.Progress(maxCount: 20, current: 20),
 						duration: nil, notification: nil, isCompleted: true, createDate: Date(),
 						updateDate: Date(), subtasks: [], parent: nil)
 		return task
 	}
-
 
 	var words: Task {
 		let task = Task(title: "example_task_word".loc,
