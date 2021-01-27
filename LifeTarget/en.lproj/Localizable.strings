@@ -75,7 +75,7 @@
 "notification" = "Notification";
 "every" = "every";
 
-"choose_appearance" = "Choose app style";
+"choose_appearance" = "Choose app theme";
 "appearance_light" = "Light";
 "appearance_dark" = "Dark";
 "appearance_system" = "System";
@@ -93,18 +93,18 @@
 "tutorial" = "Tutorial";
 "write_to_developers" = "Text us";
 
-"test_task_title" = "Add example task?";
-"test_task_message" = "Example task will be added at end of you list";
+"test_task_title" = "Add example target?";
+"test_task_message" = "Example taget will be added at end of you list";
 "add" = "Add";
 
 "build_version" = "Version";
 
 
 "example_task_title" = "Learn X language";
-"example_task_exposition" = "This is main target (your global task) it'll take a long time (for example a 1 year).";
+"example_task_exposition" = "This is main target it'll take a long time (for example a 1 year).";
 
 "example_task_reading" = "Reading";
-"example_task_reading_exposition" = "This is middle target and accumulate atomic tasks which you will execute every day/week/month.";
+"example_task_reading_exposition" = "This is middle target which accumulate atomic tasks. Execute this every day/week/month.";
 "example_task_reading_book" = "Read X book";
 "example_task_reading_book_exposition" = "Read 186 pages of book";
 "example_task_reading_article" = "Read articles";
@@ -127,7 +127,7 @@
 "example_task_grammar" = "Grammar";
 
 "example_task_word" = "Words";
-"example_task_word_exposition" = "We need to learn 2000 words. Use X app to do this (for example you can set notification for every Mon, Fri at 8:00 p.m.)";
+"example_task_word_exposition" = "We need to learn 2000 words. Use X app to do this (for example you can set notification for every Mon and Fri at 8:00 p.m.)";
 
 "example_task_added" = "Example task added";
 "example_task_added_message" = "Switch to targets list and it will appear on end of list";

@@ -18,7 +18,7 @@ final class RippleAnimationHelper {
 	private let gradientLayer: CAGradientLayer = {
 		let layer = CAGradientLayer()
 		layer.type = .radial
-		layer.locations = [0.0, 0.5, 1.0]
+		layer.locations = [0.0, 0.0, 0.0]
 		return layer
 	}()
 
@@ -27,8 +27,8 @@ final class RippleAnimationHelper {
 		animation.fromValue = [-1.0, -0.5, 0]
 		animation.toValue = [1.0, 1.5, 2.0]
 		animation.duration = 0.8
-		animation.isRemovedOnCompletion = true
-		animation.fillMode = .removed
+		animation.isRemovedOnCompletion = false
+		animation.fillMode = .backwards
 		return animation
 	}()
 
@@ -74,6 +74,7 @@ final class RippleAnimationHelper {
 		CATransaction.begin()
 		CATransaction.setCompletionBlock { [self] in
 			overlay.removeFromSuperview()
+			gradientLayer.removeAllAnimations()
 			gradientLayer.removeFromSuperlayer()
 		}
 		gradientLayer.add(animation, forKey: "locations")
