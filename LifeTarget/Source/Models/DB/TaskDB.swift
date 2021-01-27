@@ -104,8 +104,8 @@ extension Task {
 		var parent: Task?
 
 		if let progressMax = model.progressMaxCount, let progressCurrent = model.progressCurrent {
-			progress = Task.Progress(maxCount: progressMax.floatValue,
-									 current: progressCurrent.floatValue)
+			progress = Task.Progress(maxCount: progressMax.intValue,
+									 current: progressCurrent.intValue)
 		}
 
 		if let start = model.durationStart, let end = model.durationEnd {

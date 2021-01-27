@@ -80,15 +80,15 @@ enum ChangeTaskScene {
 	}
 
 	struct Progress {
-		let maxCount: Float
-		let currentCount: Float?
+		let maxCount: Int
+		let currentCount: Int?
 
 		var progress: Task.Progress {
 			return Task.Progress(maxCount: maxCount, current: currentCount ?? 0)
 		}
 
 		func validate() -> String? {
-			if maxCount > Float(Int.max) - 1 {
+			if maxCount > Int.max - 1 {
 				return "too_much_progress".loc
 			}
 

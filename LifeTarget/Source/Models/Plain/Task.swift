@@ -22,8 +22,8 @@ struct Task: IdentifiableInput {
 	}
 
 	struct Progress: Equatable {
-		var maxCount: Float
-		var current: Float
+		var maxCount: Int
+		var current: Int
 	}
 
 	var id: String = UUID().uuidString

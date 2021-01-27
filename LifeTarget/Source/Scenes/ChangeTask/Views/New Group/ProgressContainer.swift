@@ -38,8 +38,8 @@ final class ProgressContainer: UIView {
 			return nil
 		}
 
-		return ChangeTaskScene.Progress(maxCount: Float(maxProgress),
-										currentCount: currentField.value?.float)
+		return ChangeTaskScene.Progress(maxCount: maxProgress,
+										currentCount: currentField.value)
 	}
 
 	convenience init() {
@@ -53,8 +53,8 @@ final class ProgressContainer: UIView {
 
 	func update(with task: Task) {
 		currentField.isHidden = false
-		currentField.value = task.progress?.current.int
-		maxCountField.value = task.progress?.maxCount.int
+		currentField.value = task.progress?.current
+		maxCountField.value = task.progress?.maxCount
 	}
 
 	required init?(coder: NSCoder) {

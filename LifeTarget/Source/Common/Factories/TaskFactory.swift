@@ -67,10 +67,10 @@ private extension TaskFactory {
 	}
 
 	func buildProgress(from progress: Task.Progress, task: Task) -> ProgressViewModel {
-		let progressLabel = "activities_progress".loc + ": \(Int(progress.current))/\(Int(progress.maxCount))"
+		let progressLabel = "activities_progress".loc + ": \(progress.current)/\(progress.maxCount)"
 		let hasPlusButton = progress.current < progress.maxCount
 		let prog = ProgressViewModel(color: Colors.progress,
-									 progress: progress.current / progress.maxCount,
+									 progress: Float(progress.current) / Float(progress.maxCount),
 									 subtitle: progressLabel,
 									 showPlus: !task.isCompleted && hasPlusButton)
 		return prog
