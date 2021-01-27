@@ -2,28 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>StringKey</key>
+	<key>subtasks_count</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@VARIABLE@</string>
-		<key>VARIABLE</key>
+		<string>%#@subtasks_count@</string>
+		<key>subtasks_count</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
 			<string>NSStringPluralRuleType</string>
 			<key>NSStringFormatValueTypeKey</key>
-			<string></string>
+			<string>d</string>
 			<key>zero</key>
-			<string></string>
+			<string>Нет подзадач</string>
 			<key>one</key>
-			<string></string>
-			<key>two</key>
-			<string></string>
+			<string>%d подзадача</string>
 			<key>few</key>
-			<string></string>
+			<string>%d подзадачи</string>
 			<key>many</key>
-			<string></string>
+			<string>%d подзадач</string>
 			<key>other</key>
-			<string></string>
+			<string>%d подзадач</string>
 		</dict>
 	</dict>
 </dict>

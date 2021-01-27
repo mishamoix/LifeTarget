@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 final class Assemble {
 
@@ -28,8 +29,8 @@ final class Assemble {
 
 	private func setup() {
 		setupWindow()
-
 		NotificationService.permission = notificationPermission
+		FirebaseApp.configure()
 	}
 
 	private func setupWindow() {

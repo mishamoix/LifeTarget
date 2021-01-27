@@ -8,4 +8,4 @@
 import Foundation
 
 //swiftlint:disable identifier_name
-let DeveloperEmail = "foo@bar.com"
+let DeveloperEmail = "targettreeapp@gmail.com"
