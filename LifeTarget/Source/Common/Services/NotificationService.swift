@@ -26,6 +26,10 @@ final class NotificationService: NSObject {
 
 	static let shared = NotificationService()
 
+	private let queue = DispatchQueue(label: "notification",
+									  qos: .userInitiated,
+									  attributes: .concurrent)
+
 	static var permission: Permission = NotificationPermission()
 	private let notificationService = UNUserNotificationCenter.current()
 
@@ -69,7 +73,8 @@ final class NotificationService: NSObject {
 		if let triggers = notification.triggers?.prefix(Consts.maxCount) {
 			for (idx, trigger) in triggers.enumerated() {
 				let resultId = makeId(id: id, number: idx)
-				let request = UNNotificationRequest(identifier: resultId, content: content,
+				let request = UNNotificationRequest(identifier: resultId,
+													content: content,
 													trigger: trigger)
 				notificationService.add(request, withCompletionHandler: nil)
 			}
@@ -82,8 +87,10 @@ extension NotificationService: NotificationServiceProtocol {
 		switch action {
 			case .add(let id, let notification, let title, let message):
 				remove(by: id)
-				add(id: id, notification: notification,
-					title: title, message: message)
+				queue.asyncAfter(deadline: .now() + 1) {
+						self.add(id: id, notification: notification,
+								 title: title, message: message)
+				}
 			case .remove(let id):
 				remove(by: id)
 		}
@@ -114,7 +121,6 @@ private extension PushNotification {
 			let result = weekdays
 				.map({ DateComponents(hour: hour, minute: minute, weekday: $0) })
 				.map({ UNCalendarNotificationTrigger(dateMatching: $0, repeats: true) })
-
 			return result
 		}
 

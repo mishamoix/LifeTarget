@@ -33,7 +33,7 @@ final class WeekdayModel {
 
 		return symbols
 			.enumerated()
-			.reduce(into: [Int: Weekday](), { $0[$1.offset] = Weekday(number: $1.offset,
+			.reduce(into: [Int: Weekday](), { $0[$1.offset] = Weekday(number: $1.offset + 1,
 																	  name: $1.element,
 																	  isSelected: false) })
 	}()

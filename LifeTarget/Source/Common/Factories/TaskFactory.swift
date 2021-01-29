@@ -125,7 +125,13 @@ private extension TaskFactory {
 			var subtaskList = subtasks
 				.lazy
 				.prefix(3)
-				.map(\.title)
+				.map({ model -> String in
+					var result = model.title
+					if let progress = model.progress {
+						result += " [\(progress.current)/\(progress.maxCount)]"
+					}
+					return result
+				})
 				.map({ "\t• \($0)" })
 				.joined(separator: "\n")
 

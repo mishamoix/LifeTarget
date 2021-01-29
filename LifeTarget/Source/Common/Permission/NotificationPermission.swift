@@ -69,6 +69,9 @@ extension NotificationPermission: Permission {
 	}
 
 	func requestAccess(_ completion: @escaping (Authorized) -> Void) {
+		if cachedStatus != .none {
+			return completion(cachedStatus)
+		}
 		center.requestAuthorization(options: [.alert, .badge, .sound]) { [weak self] autorized, _ in
 			guard let self = self else { return }
 
