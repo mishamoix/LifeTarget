@@ -152,7 +152,7 @@ private extension TaskFactory {
 				+ ": \(notificationExactDateFormatter.string(from: exactDate))"
 		} else if let weekdays = task.notification?.weekdays,
 				  let time = task.notification?.dayTime?.date {
-			let weekdaysString = weekdays.compactMap({ weekdayModel[$0]?.name }).joined(separator: ", ")
+			let weekdaysString = weekdays.compactMap({ weekdayModel[number: $0]?.name }).joined(separator: ", ")
 			return "🔔 "
 				+ "notification".loc
 				+ ": \(timeFormatter.string(from: time)) "

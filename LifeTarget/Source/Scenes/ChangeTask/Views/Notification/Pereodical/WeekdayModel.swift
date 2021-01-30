@@ -16,7 +16,7 @@ final class WeekdayModel {
 	}
 
 	var selected: [Int] {
-		return dict.values.filter({ $0.isSelected }).map({ $0.number })
+		return array.filter({ $0.isSelected }).map({ $0.number })
 	}
 
 	var hasSelected: Bool {
@@ -24,33 +24,41 @@ final class WeekdayModel {
 	}
 
 	var count: Int {
-		return dict.count
+		return array.count
 	}
 
-	private var dict: [Int: Weekday] = {
+	private var array: [Weekday] = {
 		let calendar = Calendar.current
 		let symbols = calendar.shortWeekdaySymbols
 
 		return symbols
 			.enumerated()
-			.reduce(into: [Int: Weekday](), { $0[$1.offset] = Weekday(number: $1.offset + 1,
-																	  name: $1.element,
-																	  isSelected: false) })
+			.map({ Weekday(number: $0.offset + 1, name: $0.element, isSelected: false) })
 	}()
 
 	func toggle(at index: Int) {
-		dict[index]?.isSelected.toggle()
+		array[index].isSelected.toggle()
 	}
 
-	subscript(_ index: Int) -> Weekday? {
-		return dict[index]
+	subscript(number number: Int) -> Weekday? {
+		return array[realIndexForNumber(number: number)]
 	}
 
-	func update(index: Int, value: Bool) {
-		dict[index]?.isSelected = value
+	subscript(index index: Int) -> Weekday? {
+		return array[index]
+	}
+
+	func update(number: Int, value: Bool) {
+		array[realIndexForNumber(number: number)].isSelected = value
 	}
 
 	func reset() {
-		dict.keys.forEach({ update(index: $0, value: false) })
+		for idx in 0..<count {
+			array[idx].isSelected = false
+		}
+	}
+
+	private func realIndexForNumber(number: Int) -> Int {
+		array.firstIndex(where: { $0.number == number }) ?? number
 	}
 }

@@ -77,7 +77,7 @@ final class NotificationPereodicalTime: BaseView {
 
 	func update(with notification: PushNotification) {
 		currentTime = notification.dayTime?.date
-		notification.weekdays?.forEach({ weekdays.update(index: $0, value: true) })
+		notification.weekdays?.forEach({ weekdays.update(number: $0, value: true) })
 		refreshViews()
 	}
 
@@ -159,7 +159,7 @@ extension NotificationPereodicalTime: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificationWeekdayCell.identifier, for: indexPath)
 
-		if let cell = cell as? NotificationWeekdayCell, let item = weekdays[indexPath.item] {
+		if let cell = cell as? NotificationWeekdayCell, let item = weekdays[index: indexPath.item] {
 			cell.update(with: item)
 		}
 
