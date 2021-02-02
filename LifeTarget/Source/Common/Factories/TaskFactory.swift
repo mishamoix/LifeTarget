@@ -60,7 +60,7 @@ private extension TaskFactory {
 			result.append(buildProgress(from: subtasks))
 		}
 
-		if let duration = task.duration, let durationResult = buildProgress(from: duration) {
+		if let duration = task.duration, let durationResult = buildProgress(from: duration), !task.isCompleted {
 			result.append(durationResult)
 		}
 		return result
