@@ -60,7 +60,9 @@ private extension TaskFactory {
 			result.append(buildProgress(from: subtasks))
 		}
 
-		if let duration = task.duration, let durationResult = buildProgress(from: duration), !task.isCompleted {
+		if let duration = task.duration,
+		   !task.isCompleted,
+		   let durationResult = buildProgress(from: duration)  {
 			result.append(durationResult)
 		}
 		return result
@@ -107,12 +109,17 @@ private extension TaskFactory {
 		if dateStart > Date() {
 			progress = 0
 			title = "duration_will_start".loc + ": \(dateFormatter.string(from: duration.start))"
+		} else if dateEnd < Date() {
+			progress = 1
+			title = "duration_did_end".loc + ": \(dateFormatter.string(from: duration.end))"
 		} else {
 			progress = Float(pastDays) / Float(allDays)
 			title = "finish_date".loc
 				+ ": \(dateFormatter.string(from: duration.end)), "
-				+ "days_progress".loc
-				+ ": \(pastDays)/\(allDays)"
+				+ "days_progress".loc.lowercased()
+				+ ": \(pastDays)/\(allDays), "
+				+ "left".loc.lowercased()
+				+ ": \(allDays - pastDays)"
 		}
 
 		let prog = ProgressViewModel(color: Colors.timeLeft, progress: progress,

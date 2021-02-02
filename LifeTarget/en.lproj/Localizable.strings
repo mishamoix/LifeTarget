@@ -44,7 +44,10 @@
 
 "activities_progress" = "Activities";
 "duration_will_start" = "Duration will start at";
+"duration_did_end" = "Duration did end at";
 "days_progress" = "Days";
+
+"left" = "Left";
 
 "remove_task_title" = "Delete task";
 "remove_task_subtitle" = "Are you really want to remove this task? You will not able to restore task";

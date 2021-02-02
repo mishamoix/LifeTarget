@@ -44,7 +44,9 @@
 
 "activities_progress" = "Активности";
 "duration_will_start" = "Начало";
+"duration_did_end" = "Закончилось";
 "days_progress" = "Дни";
+"left" = "Осталось";
 
 "remove_task_title" = "Удалить задачу";
 "remove_task_subtitle" = "Вы уверены, что хотите удалить задачу? Это действие нельзя отменить";
